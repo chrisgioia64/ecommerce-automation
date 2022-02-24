@@ -22,7 +22,6 @@ public class BaseTest {
         return driver;
     }
 
-
     @AfterSuite
     public void tearDownSuite() {
         driverPool.forEach(WebDriver::quit);
