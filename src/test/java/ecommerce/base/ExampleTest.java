@@ -1,4 +1,4 @@
-package ecommerce.automation.base;
+package ecommerce.base;
 
 import org.testng.annotations.Test;
 

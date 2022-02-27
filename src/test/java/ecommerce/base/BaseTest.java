@@ -1,4 +1,4 @@
-package ecommerce.automation.base;
+package ecommerce.base;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
@@ -15,7 +15,13 @@ public class BaseTest {
     public void setupSuite() {
     }
 
-    public WebDriver getDriver(DriverFactory.BrowserType browserType, String url) {
+    public WebDriver getDriver() {
+        BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
+        String url = EnvironmentProperties.getInstance().getUrl();
+        return getDriver(type, url);
+    }
+
+    public WebDriver getDriver(BrowserType browserType, String url) {
         WebDriver driver = DriverFactory.getInstance().getDriver(browserType);
         driver.get(url);
         driverPool.add(driver);
