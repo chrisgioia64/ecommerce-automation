@@ -9,6 +9,7 @@ public class RegistrationSpreadsheet {
 
     private Map<Integer, RegisteredUser> registeredUserMap;
     private Map<Integer, RegistrationTestCase> testCase;
+    private Map<Integer, LoginTestCase> loginTestCases;
 
     public Map<Integer, RegisteredUser> getRegisteredUserMap() {
         return registeredUserMap;
@@ -26,4 +27,11 @@ public class RegistrationSpreadsheet {
         this.testCase = testCase;
     }
 
+    public Map<Integer, LoginTestCase> getLoginTestCases() {
+        return loginTestCases;
+    }
+
+    public void setLoginTestCases(Map<Integer, LoginTestCase> loginTestCases) {
+        this.loginTestCases = loginTestCases;
+    }
 }

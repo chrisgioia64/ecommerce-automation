@@ -6,6 +6,7 @@ public class RegistrationTestCase {
     private int userId;
     private boolean successful;
     private String explanation;
+    private boolean includes;
 
     public int getTestCaseId() {
         return testCaseId;
@@ -37,5 +38,13 @@ public class RegistrationTestCase {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
+    }
+
+    public boolean isIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(boolean includes) {
+        this.includes = includes;
     }
 }

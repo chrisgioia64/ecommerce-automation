@@ -1,6 +1,7 @@
 package ecommerce.features.registration;
 
 import ecommerce.base.EnvironmentProperties;
+import ecommerce.tests.LoginTest;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
@@ -30,8 +31,11 @@ public class RegistrationExcelReader {
             Map<Integer, RegisteredUser> userMap = getUsers(userSheet);
             XSSFSheet testCaseSheet = workbook.getSheetAt(1);
             Map<Integer, RegistrationTestCase> testCaseMap = getTestcases(testCaseSheet);
+            XSSFSheet loginTestCaseSheet = workbook.getSheetAt(2);
+            Map<Integer, LoginTestCase> loginTestCaseMap = getLoginTestCases(loginTestCaseSheet);
             spreadsheet.setRegisteredUserMap(userMap);
             spreadsheet.setTestCase(testCaseMap);
+            spreadsheet.setLoginTestCases(loginTestCaseMap);
         } catch (IOException e) {
             LOGGER.error("IO Exception when reading Registration Spreadsheet");
             LOGGER.error(e.getMessage());
@@ -97,7 +101,17 @@ public class RegistrationExcelReader {
                     "\"" + successfulText + "\"");
         }
 
-        testCase.setExplanation(getStringValue(row.getCell(3)));
+        String includesText = getStringValue(row.getCell(3));
+        if (includesText.equalsIgnoreCase("yes")) {
+            testCase.setIncludes(true);
+        } else if (includesText.equalsIgnoreCase("no")) {
+            testCase.setIncludes(false);
+        } else {
+            LOGGER.warn("Test case id " + testCase.getTestCaseId() + " has invalid includes text " +
+                    "\"" + includesText + "\"");
+        }
+
+        testCase.setExplanation(getStringValue(row.getCell(4)));
         return testCase;
     }
 
@@ -121,6 +135,52 @@ public class RegistrationExcelReader {
         info.setZipCode(getStringValue(row.getCell(15)));
         info.setMobileNumber(getStringValue(row.getCell(16)));
         return info;
+    }
+
+    private static Map<Integer, LoginTestCase> getLoginTestCases(XSSFSheet sheet) {
+        Map<Integer, LoginTestCase> map = new HashMap<>();
+        Iterator<Row> rowIterator = sheet.iterator();
+        if (!rowIterator.hasNext()) {
+            LOGGER.warn("The excel sheet for login test cases has no rows");
+            return map;
+        }
+        rowIterator.next();
+        String emailSuffix = EnvironmentProperties.getInstance().getEmailSuffix();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            LoginTestCase testCase = getLoginTestcase(row, emailSuffix);
+            map.put(testCase.getId(), testCase);
+        }
+        return map;
+    }
+
+    private static LoginTestCase getLoginTestcase(Row row, String emailSuffix) {
+        LoginTestCase testCase = new LoginTestCase();
+        testCase.setId(getIntegerValue(row.getCell(0), "test case id"));
+        testCase.setEmail(getStringValue(row.getCell(1)) + emailSuffix);
+        testCase.setPassword(getStringValue(row.getCell(2)));
+        String successfulText = getStringValue(row.getCell(3));
+        if (successfulText.equalsIgnoreCase("yes")) {
+            testCase.setSuccessful(true);
+        } else if (successfulText.equalsIgnoreCase("no")) {
+            testCase.setSuccessful(false);
+        } else {
+            LOGGER.warn("Test case id " + testCase.getId() + " has invalid success text " +
+                    "\"" + successfulText + "\"");
+        }
+
+        String includesText = getStringValue(row.getCell(4));
+        if (includesText.equalsIgnoreCase("yes")) {
+            testCase.setIncludes(true);
+        } else if (includesText.equalsIgnoreCase("no")) {
+            testCase.setIncludes(false);
+        } else {
+            LOGGER.warn("Test case id " + testCase.getId() + " has invalid includes text " +
+                    "\"" + includesText + "\"");
+        }
+
+        testCase.setComments(getStringValue(row.getCell(5)));
+        return testCase;
     }
 
     private static String getStringValue(Cell cell) {

@@ -23,7 +23,7 @@ public class RegistrationTest extends BaseTest {
 
     private static final Logger LOGGER = Logger.getLogger(RegistrationTest.class);
 
-    @Test(dataProvider = "registrationData")
+    @Test(dataProvider = "registrationData", groups = {"registration"})
     public void test(RegistrationTestCase testCase, RegisteredUser user) {
         WebDriver driver = getDriver();
 
@@ -67,7 +67,7 @@ public class RegistrationTest extends BaseTest {
         List<RegisteredUser> users = new ArrayList<>();
         for (RegistrationTestCase testCase : spreadsheet.getTestCase().values()) {
             RegisteredUser user = spreadsheet.getRegisteredUserMap().get(testCase.getUserId());
-            if (user != null) {
+            if (user != null && testCase.isIncludes()) {
                 testCases.add(testCase);
                 users.add(user);
             } else {

@@ -19,8 +19,10 @@ public class LoginPage extends AutomationExercisePage {
     private static final String REGISTER_EMAIL = "form[action='/signup'] input[name='email']";
     private static final String REGISTER_BUTTON = "form[action='/signup'] button";
 
-
     // Login Form CSS Selectors
+    private static final String LOGIN_EMAIL = "form[action='/login'] input[name='email']";
+    private static final String LOGIN_PASSWORD = "form[action='/login'] input[name='password']";
+    private static final String LOGIN_BUTTON = "form[action='/login'] button";
 
     private static final Logger LOGGER = Logger.getLogger(LoginPage.class);
 
@@ -30,8 +32,8 @@ public class LoginPage extends AutomationExercisePage {
 
     /**
      * Enters username and email into the "New User Signup" form
-     * @param username the username
-     * @param email the email
+     * @param username the desired username of the new account
+     * @param email the desired email of the new account
      * @return true if we are redirected to the signup form, false
      * if we are not (e.g. the email address already exists)
      */
@@ -50,5 +52,23 @@ public class LoginPage extends AutomationExercisePage {
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    /**
+     * Enters email and password into the Login form
+     * @param email the email of the account
+     * @param password the password of the account
+     * @return
+     */
+    public boolean enterLogin(String email, String password) {
+        WebElement emailElement = driver.findElement(By.cssSelector(LOGIN_EMAIL));
+        WebElement passwordElement = driver.findElement(By.cssSelector(LOGIN_PASSWORD));
+        WebElement submit = driver.findElement(By.cssSelector(LOGIN_BUTTON));
+        emailElement.sendKeys(email);
+        passwordElement.sendKeys(password);
+        LOGGER.info("Enter into login, email = \"" + email + "\" " +
+                " and password \"" + password + "\"");
+        submit.click();
+        return linkExists(AutomationExercisePage.LOGOUT_LINK);
     }
 }
