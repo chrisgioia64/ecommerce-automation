@@ -1,5 +1,6 @@
 package ecommerce.base;
 
+import io.restassured.RestAssured;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -13,6 +14,7 @@ public class BaseTest {
 
     @BeforeSuite
     public void setupSuite() {
+        RestAssured.baseURI = EnvironmentProperties.getInstance().getUrl();
     }
 
     public WebDriver getDriver() {

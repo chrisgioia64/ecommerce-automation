@@ -1,18 +1,24 @@
 package ecommerce.tests;
 
 import ecommerce.base.BaseTest;
+import ecommerce.features.APIUtils;
+import ecommerce.features.EcommerceApiException;
 import ecommerce.features.registration.LoginTestCase;
 import ecommerce.features.registration.RegistrationExcelReader;
 import ecommerce.features.registration.RegistrationSpreadsheet;
 import ecommerce.pageObjects.HomePage;
 import ecommerce.pageObjects.LoginPage;
+import io.restassured.response.Response;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+
+import static io.restassured.RestAssured.given;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.fail;
 
 /**
@@ -22,8 +28,28 @@ import static org.testng.AssertJUnit.fail;
  */
 public class LoginTest extends BaseTest {
 
+    /**
+     * Test login via API (API's 7 and 10)
+     * @param testCase information about the login test case including
+     *                 email, password, and is login successful
+     */
     @Test(dataProvider = "loginTestCases", dependsOnGroups = {"registration"})
-    public void test(LoginTestCase testCase) {
+    public void APITest(LoginTestCase testCase) {
+        try {
+            boolean successful = APIUtils.loginSuccessful(testCase.getEmail(), testCase.getPassword());
+            assertEquals(testCase.getComments(), successful, testCase.isSuccessful());
+        } catch (EcommerceApiException ex) {
+            fail(ex.getMessage());
+        }
+    }
+
+    /**
+     * Test login via Selenium (UI)
+     * @param testCase information about the login test case including
+     *                 email, password, and is login successful
+     */
+    @Test(dataProvider = "loginTestCases", dependsOnGroups = {"registration"})
+    public void UITest(LoginTestCase testCase) {
         WebDriver driver = getDriver();
 
         HomePage homePage = new HomePage(driver);
