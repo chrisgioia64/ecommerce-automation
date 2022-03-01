@@ -1,7 +1,6 @@
-package ecommerce.features.registration;
+package ecommerce.scenarios.registration;
 
 import ecommerce.base.EnvironmentProperties;
-import ecommerce.tests.LoginTest;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;

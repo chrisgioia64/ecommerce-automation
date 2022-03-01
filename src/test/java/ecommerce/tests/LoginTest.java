@@ -1,14 +1,13 @@
 package ecommerce.tests;
 
 import ecommerce.base.BaseTest;
-import ecommerce.features.APIUtils;
-import ecommerce.features.EcommerceApiException;
-import ecommerce.features.registration.LoginTestCase;
-import ecommerce.features.registration.RegistrationExcelReader;
-import ecommerce.features.registration.RegistrationSpreadsheet;
-import ecommerce.pageObjects.HomePage;
-import ecommerce.pageObjects.LoginPage;
-import io.restassured.response.Response;
+import ecommerce.api.APIUtils;
+import ecommerce.api.EcommerceApiException;
+import ecommerce.scenarios.registration.LoginTestCase;
+import ecommerce.scenarios.registration.RegistrationExcelReader;
+import ecommerce.scenarios.registration.RegistrationSpreadsheet;
+import ecommerce.pages.HomePage;
+import ecommerce.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

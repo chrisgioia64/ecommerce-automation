@@ -1,4 +1,4 @@
-package ecommerce.features.registration;
+package ecommerce.scenarios.registration;
 
 
 public class RegistrationTestCase {

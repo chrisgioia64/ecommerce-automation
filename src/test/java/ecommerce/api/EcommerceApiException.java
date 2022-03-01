@@ -1,4 +1,4 @@
-package ecommerce.features;
+package ecommerce.api;
 
 public class EcommerceApiException extends Exception {
 

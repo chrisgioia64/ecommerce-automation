@@ -1,4 +1,4 @@
-package ecommerce.pageObjects;
+package ecommerce.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

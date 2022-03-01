@@ -1,14 +1,13 @@
 package ecommerce.tests;
 
 import ecommerce.base.BaseTest;
-import ecommerce.demo.DemoTest;
-import ecommerce.features.registration.RegisteredUser;
-import ecommerce.features.registration.RegistrationExcelReader;
-import ecommerce.features.registration.RegistrationSpreadsheet;
-import ecommerce.features.registration.RegistrationTestCase;
-import ecommerce.pageObjects.HomePage;
-import ecommerce.pageObjects.LoginPage;
-import ecommerce.pageObjects.SignupPage;
+import ecommerce.scenarios.registration.RegisteredUser;
+import ecommerce.scenarios.registration.RegistrationExcelReader;
+import ecommerce.scenarios.registration.RegistrationSpreadsheet;
+import ecommerce.scenarios.registration.RegistrationTestCase;
+import ecommerce.pages.HomePage;
+import ecommerce.pages.LoginPage;
+import ecommerce.pages.SignupPage;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;

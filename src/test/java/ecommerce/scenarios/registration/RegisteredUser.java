@@ -1,4 +1,4 @@
-package ecommerce.features.registration;
+package ecommerce.scenarios.registration;
 
 /**
  * POJO for information entered when creating a new account

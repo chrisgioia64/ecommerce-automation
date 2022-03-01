@@ -1,4 +1,4 @@
-package ecommerce.features;
+package ecommerce.api;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

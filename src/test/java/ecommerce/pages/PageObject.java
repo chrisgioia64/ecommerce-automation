@@ -1,12 +1,10 @@
-package ecommerce.pageObjects;
+package ecommerce.pages;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
-
-import java.io.IOException;
 
 /**
  * This is the base page object classes from which all page objects extend

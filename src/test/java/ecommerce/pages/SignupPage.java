@@ -1,12 +1,10 @@
-package ecommerce.pageObjects;
+package ecommerce.pages;
 
-import ecommerce.features.registration.RegisteredUser;
-import ecommerce.features.registration.RegistrationSpreadsheet;
+import ecommerce.scenarios.registration.RegisteredUser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
 
 public class SignupPage extends AutomationExercisePage {
 
