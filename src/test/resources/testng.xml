@@ -5,6 +5,8 @@
         <classes>
             <class name="ecommerce.tests.RegistrationTest"/>
             <class name="ecommerce.tests.LoginTest"/>
+            <class name="ecommerce.cucumber.CucumberTestRunner"/>
+
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
