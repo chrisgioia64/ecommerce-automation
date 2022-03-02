@@ -1,4 +1,4 @@
-package ecommerce.cucumber.steps;
+package ecommerce.cucumber.search.steps;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -8,7 +8,6 @@ import io.cucumber.java.en.When;
 import org.hamcrest.Matchers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 
 public class SearchSteps {

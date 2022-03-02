@@ -1,4 +1,4 @@
-package ecommerce.cucumber.steps;
+package ecommerce.cucumber.search.steps;
 
 import ecommerce.base.BrowserType;
 import ecommerce.base.DriverFactory;
@@ -9,16 +9,14 @@ import org.openqa.selenium.WebDriver;
 
 public class SearchFeatureContext {
 
-    private WebDriver driver;
-    private HomePage homePage;
-    private ProductsPage productPage;
+    private final WebDriver driver;
+    private final ProductsPage productPage;
 
     public SearchFeatureContext() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
         driver = DriverFactory.getInstance().getDriver(type);
         driver.get(url);
-        homePage = new HomePage(driver);
         productPage = new ProductsPage(driver);
     }
 

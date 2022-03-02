@@ -9,7 +9,7 @@
 <!--                <parameter name="numProducts" value="5" />-->
 <!--            </class>-->
 
-            <class name="ecommerce.cucumber.CucumberTestRunner"/>
+            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
 
         </classes>
     </test> <!-- Test -->
