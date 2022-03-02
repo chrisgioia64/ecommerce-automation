@@ -3,11 +3,11 @@
 <suite name="Suite"  data-provider-thread-count="1">
     <test thread-count="2" name="Test">
         <classes>
-            <class name="ecommerce.tests.RegistrationTest"/>
-            <class name="ecommerce.tests.LoginTest"/>
-            <class name="ecommerce.tests.ProductTest">
-                <parameter name="numProducts" value="5" />
-            </class>
+<!--            <class name="ecommerce.tests.RegistrationTest"/>-->
+<!--            <class name="ecommerce.tests.LoginTest"/>-->
+<!--            <class name="ecommerce.tests.ProductTest">-->
+<!--                <parameter name="numProducts" value="5" />-->
+<!--            </class>-->
 
             <class name="ecommerce.cucumber.CucumberTestRunner"/>
 

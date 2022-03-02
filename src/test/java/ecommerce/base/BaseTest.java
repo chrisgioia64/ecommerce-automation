@@ -8,6 +8,9 @@ import org.testng.annotations.BeforeSuite;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The base test class for all TestNg-native tests (not including Cucumber)
+ */
 public class BaseTest {
 
     private final static List<WebDriver> driverPool = new ArrayList<>();
