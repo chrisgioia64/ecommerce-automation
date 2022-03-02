@@ -4,6 +4,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.hamcrest.Matchers;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,7 +30,7 @@ public class SearchSteps {
         context.navigateToProductPage();
     }
 
-    @Then("Search for {string}")
+    @When("Search for {string}")
     public void search_for(String string) {
         context.searchFor(string);
     }
