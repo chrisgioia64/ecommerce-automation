@@ -23,7 +23,7 @@ public class RegistrationTest extends BaseTest {
     private static final Logger LOGGER = Logger.getLogger(RegistrationTest.class);
 
     @Test(dataProvider = "registrationData", groups = {"registration"})
-    public void test(RegistrationTestCase testCase, RegisteredUser user) {
+    public void registrationTest(RegistrationTestCase testCase, RegisteredUser user) {
         WebDriver driver = getDriver();
 
         HomePage homePage = new HomePage(driver);

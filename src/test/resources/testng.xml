@@ -5,6 +5,10 @@
         <classes>
             <class name="ecommerce.tests.RegistrationTest"/>
             <class name="ecommerce.tests.LoginTest"/>
+            <class name="ecommerce.tests.ProductTest">
+                <parameter name="numProducts" value="5" />
+            </class>
+
             <class name="ecommerce.cucumber.CucumberTestRunner"/>
 
         </classes>

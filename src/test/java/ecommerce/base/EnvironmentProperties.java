@@ -16,6 +16,9 @@ public class EnvironmentProperties {
     public static final String KEY_URL = "url";
     public static final String KEY_REGISTRATION_FILE = "registration_spreadsheet";
 
+    /** Products with ID 1 through NUM_PRODUCTS are tested against product_details. */
+    public static final String KEY_NUM_PRODUCTS = "num_products";
+
     /** For the registration test scenario, adds a suffix to make the email unique.
      *  This is to ensure that the email address does not already exist.
      */
@@ -91,6 +94,21 @@ public class EnvironmentProperties {
             LOGGER.info("The email suffix value is " + emailSuffix);
         }
         return emailSuffix;
+    }
+
+    public int getNumProducts() {
+        String numProducts = getProperty(KEY_NUM_PRODUCTS);
+        if (numProducts == null) {
+            LOGGER.error("There is no numProducts property specified");
+        }
+        try {
+            Integer result = Integer.parseInt(numProducts);
+            LOGGER.info("The numProducts property is set to " + result);
+            return result;
+        } catch (NumberFormatException e) {
+            LOGGER.error("The numProducts property is not an integer");
+        }
+        return 0;
     }
 
     public static EnvironmentProperties getInstance() {
