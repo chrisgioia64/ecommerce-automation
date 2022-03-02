@@ -8,8 +8,15 @@ import org.openqa.selenium.WebDriver;
  */
 public class HomePage extends AutomationExercisePage {
 
+    public static final String URL = "";
+
     public HomePage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public void navigateToPage() {
+        navigateToSuburl(URL);
     }
 
 }

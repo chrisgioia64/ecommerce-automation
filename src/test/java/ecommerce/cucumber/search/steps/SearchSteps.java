@@ -19,11 +19,6 @@ public class SearchSteps {
         context = new SearchFeatureContext();
     }
 
-    @After
-    public void teardown() {
-        context.close();
-    }
-
     @Given("I am on the products page")
     public void i_am_on_the_products_page() {
         context.navigateToProductPage();

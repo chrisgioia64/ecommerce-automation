@@ -1,11 +1,12 @@
 package ecommerce.pages;
 
+import ecommerce.base.EnvironmentProperties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class AutomationExercisePage extends PageObject {
+public abstract class AutomationExercisePage extends PageObject {
 
     private static final String HOME_LINK = "Home";
     private static final String PRODUCT_LINK = "Products";
@@ -38,13 +39,27 @@ public class AutomationExercisePage extends PageObject {
         clickLink(LOGOUT_LINK);
     }
 
+    public void clickLogoutLinkIfExists() {
+        clickLink(LOGOUT_LINK, false);
+    }
+
     public void clickDeleteLink() {
         clickLink(DELETE_LINK);
     }
 
+    private void clickLink(String partialText, boolean throwError) {
+        try {
+            WebElement element = driver.findElement(By.partialLinkText(partialText));
+            element.click();
+        } catch (NoSuchElementException ex) {
+            if (throwError) {
+                throw ex;
+            }
+        }
+    }
+
     private void clickLink(String partialText) {
-        WebElement element = driver.findElement(By.partialLinkText(partialText));
-        element.click();
+        clickLink(partialText, true);
     }
 
     public boolean linkExists(String partialText) {
@@ -54,6 +69,20 @@ public class AutomationExercisePage extends PageObject {
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    /** Navigates to the url of the given page.
+     *  Throws an exception when additional information (e.g. product ID) is needed
+     */
+    public abstract void navigateToPage();
+
+    protected String getFullUrl(String subUrl) {
+        return EnvironmentProperties.getInstance().getUrl() + "/" + subUrl;
+    }
+
+    protected void navigateToSuburl(String subUrl) {
+        String fullUrl = getFullUrl(subUrl);
+        driver.get(fullUrl);
     }
 
 }

@@ -21,16 +21,20 @@ public class ProductsPage extends AutomationExercisePage {
     private final static String SEARCH_BUTTON = "#submit_search";
 
     private final static String PRODUCT_CARDS = ".productinfo";
+    private final static String PRODUCT_CARDS_OUTER = ".product-image-wrapper";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
     }
 
+    @Override
+    public void navigateToPage() {
+        navigateToSuburl(URL);
+    }
+
     public void searchAndSubmit(String searchItem) {
-        WebElement element = driver.findElement(By.cssSelector(SEARCH_BAR));
-        element.sendKeys(searchItem);
-        WebElement submitButton = driver.findElement(By.cssSelector(SEARCH_BUTTON));
-        submitButton.click();
+        sendKeys(SEARCH_BAR, searchItem);
+        click(SEARCH_BUTTON);
     }
 
     /**
@@ -42,6 +46,24 @@ public class ProductsPage extends AutomationExercisePage {
                 elements.stream().map( x -> x.findElement(By.tagName("p")).getText())
                         .collect(Collectors.toSet());
         return productNames;
+    }
+
+    /**
+     * @param productName
+     * @return true if the product was found in the page and clicked on, false otherwise
+     */
+    public boolean viewProductDetails(String productName) {
+        List<WebElement> elements = driver.findElements(By.cssSelector(PRODUCT_CARDS_OUTER));
+        for (WebElement element : elements) {
+            // there are two "p" tags; finds the first "p" tag
+            String text = element.findElement(By.tagName("p")).getText();
+            if (text.strip().equalsIgnoreCase(productName.strip())) {
+                WebElement link = element.findElement(By.cssSelector("a[href*='product_details']"));
+                link.click();
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -20,13 +20,13 @@ public class BaseTest {
         RestAssured.baseURI = EnvironmentProperties.getInstance().getUrl();
     }
 
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
         return getDriver(type, url);
     }
 
-    public WebDriver getDriver(BrowserType browserType, String url) {
+    public static WebDriver getDriver(BrowserType browserType, String url) {
         WebDriver driver = DriverFactory.getInstance().getDriver(browserType);
         driver.get(url);
         driverPool.add(driver);

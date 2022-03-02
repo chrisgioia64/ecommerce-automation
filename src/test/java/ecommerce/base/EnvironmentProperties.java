@@ -12,8 +12,15 @@ public class EnvironmentProperties {
     public static final String ENV_FILE = "src//test//resources//env.properties";
     private static final String RESOURCES_FOLDER = "src//test//resources";
 
+    /** The default browser to use for testing. */
     public static final String KEY_BROWSER = "browser";
+
+    /** The base url for the AUT (Application Under Test). */
     public static final String KEY_URL = "url";
+
+    /** The location of the spreadsheet used for doing data-driven testing
+     * for the registration and login test cases
+     */
     public static final String KEY_REGISTRATION_FILE = "registration_spreadsheet";
 
     /** Products with ID 1 through NUM_PRODUCTS are tested against product_details. */
@@ -23,6 +30,12 @@ public class EnvironmentProperties {
      *  This is to ensure that the email address does not already exist.
      */
     public static final String KEY_REGISTRATION_EMAIL_SUFFIX = "registration_email_suffix";
+
+    /**
+     * An integer representing the number of seconds we should wait between cucumber steps
+     * During product, value should be 0. Set to non-zero number for debugging purposes
+     */
+    public static final String KEY_STEP_WAIT = "cucumber_step_wait";
 
     private static final Logger LOGGER = Logger.getLogger(EnvironmentProperties.class);
 
@@ -80,8 +93,6 @@ public class EnvironmentProperties {
         String urlValue = getProperty(KEY_URL);
         if (urlValue == null) {
             LOGGER.error("There is no url value specified in the properties file");
-        } else {
-            LOGGER.info("The url value specified is : " + urlValue);
         }
         return urlValue;
     }
@@ -107,6 +118,21 @@ public class EnvironmentProperties {
             return result;
         } catch (NumberFormatException e) {
             LOGGER.error("The numProducts property is not an integer");
+        }
+        return 0;
+    }
+
+    public int getCucumberWait() {
+        String cucumberWaitString = getProperty(KEY_STEP_WAIT);
+        if (cucumberWaitString == null) {
+            LOGGER.warn("No step wait specified in properties file");
+        }
+        try {
+            Integer seconds = Integer.parseInt(cucumberWaitString);
+            LOGGER.info("Cucumber step wait specified in seconds as " + seconds);
+            return seconds;
+        } catch (NumberFormatException e) {
+            LOGGER.warn("invalid step wait specified: \"" + cucumberWaitString + "\"");
         }
         return 0;
     }

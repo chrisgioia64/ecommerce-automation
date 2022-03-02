@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 
 public class SignupPage extends AutomationExercisePage {
 
+    public static final String URL = "signup";
+
     public static final String NAME_FIELD = "#name";
     private static final String PASSWORD_FIELD = "#password";
     private static final String DAYS_FIELD = "#days";
@@ -36,6 +38,11 @@ public class SignupPage extends AutomationExercisePage {
         super(driver);
     }
 
+    @Override
+    public void navigateToPage() {
+        navigateToSuburl(URL);
+    }
+
     private void enterDob(int day, String month, int year) {
         WebElement dayElement = driver.findElement(By.cssSelector(DAYS_FIELD));
         selectByValue(dayElement, day + "", "day");
@@ -62,40 +69,23 @@ public class SignupPage extends AutomationExercisePage {
         nameElement.clear();
         nameElement.sendKeys(user.getName());
 
-        WebElement passwordElement = driver.findElement(By.cssSelector(PASSWORD_FIELD));
-        passwordElement.sendKeys(user.getPassword());
+        sendKeys(PASSWORD_FIELD, user.getPassword());
 
         enterDob(user.getDay(), user.getMonth(), user.getYear());
 
-        WebElement firstNameElement = driver.findElement(By.cssSelector(FIRST_NAME_FIELD));
-        firstNameElement.sendKeys(user.getFirstName());
+        sendKeys(FIRST_NAME_FIELD, user.getFirstName());
+        sendKeys(LAST_NAME_FIELD, user.getLastName());
 
-        WebElement lastNameElement = driver.findElement(By.cssSelector(LAST_NAME_FIELD));
-        lastNameElement.sendKeys(user.getLastName());
-
-        WebElement companyElement = driver.findElement(By.cssSelector(COMPANY_FIELD));
-        companyElement.sendKeys(user.getCompany());
-
-        WebElement address1Element = driver.findElement(By.cssSelector(ADDRESS_1_FIELD));
-        address1Element.sendKeys(user.getAddress1());
-
-        WebElement address2Element = driver.findElement(By.cssSelector(ADDRESS_2_FIELD));
-        address2Element.sendKeys(user.getAddress2());
+        sendKeys(COMPANY_FIELD, user.getCompany());
+        sendKeys(ADDRESS_1_FIELD, user.getAddress1());
+        sendKeys(ADDRESS_2_FIELD, user.getAddress2());
 
         enterCountry(user.getCountry());
 
-        WebElement stateElement = driver.findElement(By.cssSelector(STATE_FIELD));
-        stateElement.sendKeys(user.getState());
-
-        WebElement cityElement = driver.findElement(By.cssSelector(CITY_FIELD));
-        cityElement.sendKeys(user.getCity());
-
-        WebElement zipElement = driver.findElement(By.cssSelector(ZIP_FIELD));
-        zipElement.sendKeys(user.getZipCode());
-
-        WebElement mobileElement = driver.findElement(By.cssSelector(MOBILE_FIELD));
-        mobileElement.sendKeys(user.getMobileNumber());
-
+        sendKeys(STATE_FIELD, user.getState());
+        sendKeys(CITY_FIELD, user.getCity());
+        sendKeys(ZIP_FIELD, user.getZipCode());
+        sendKeys(MOBILE_FIELD, user.getMobileNumber());
     }
 
     /**

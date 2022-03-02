@@ -16,9 +16,25 @@ public class ProductDetailsPage extends AutomationExercisePage {
     private static final String PRODUCT_CATEGORY_TEXT = ".product-information p";
     private static final String PRODUCT_PRICE_TEXT = ".product-information span span";
     private static final String PRODUCT_BRAND_TEXT = ".product-information p:nth-of-type(4)";
+    private static final String PRODUCT_QUANTITY_INPUT = "#quantity";
+
+    private static final String ADD_TO_CART_BUTTON = ".product-information button";
 
     public ProductDetailsPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public void navigateToPage() {
+        throw new IllegalArgumentException("no single page for ProductDetails");
+    }
+
+    public void setQuantity(int quantity) {
+        sendKeys(PRODUCT_QUANTITY_INPUT, quantity + "");
+    }
+
+    public void clickAddToCart() {
+        click(ADD_TO_CART_BUTTON);
     }
 
     public String getProductName() {

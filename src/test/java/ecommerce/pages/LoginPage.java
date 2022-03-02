@@ -30,6 +30,11 @@ public class LoginPage extends AutomationExercisePage {
         super(driver);
     }
 
+    @Override
+    public void navigateToPage() {
+        navigateToSuburl(PAGE_URL);
+    }
+
     /**
      * Enters username and email into the "New User Signup" form
      * @param username the desired username of the new account
@@ -38,20 +43,12 @@ public class LoginPage extends AutomationExercisePage {
      * if we are not (e.g. the email address already exists)
      */
     public boolean enterRegistration(String username, String email) {
-        WebElement usernameElement = driver.findElement(By.cssSelector(REGISTER_NAME));
-        WebElement emailElement = driver.findElement(By.cssSelector(REGISTER_EMAIL));
-        WebElement submit = driver.findElement(By.cssSelector(REGISTER_BUTTON));
-        usernameElement.sendKeys(username);
-        emailElement.sendKeys(email);
+        sendKeys(REGISTER_NAME, username);
+        sendKeys(REGISTER_EMAIL, email);
+        click(REGISTER_BUTTON);
         LOGGER.info("Enter into registration, name = \"" + username + "\" " +
                 " and email = \"" + email + "\"");
-        submit.click();
-        try {
-            driver.findElement(By.cssSelector(SignupPage.NAME_FIELD));
-            return true;
-        } catch (NoSuchElementException ex) {
-            return false;
-        }
+        return elementExists(SignupPage.NAME_FIELD);
     }
 
     /**
@@ -61,14 +58,11 @@ public class LoginPage extends AutomationExercisePage {
      * @return
      */
     public boolean enterLogin(String email, String password) {
-        WebElement emailElement = driver.findElement(By.cssSelector(LOGIN_EMAIL));
-        WebElement passwordElement = driver.findElement(By.cssSelector(LOGIN_PASSWORD));
-        WebElement submit = driver.findElement(By.cssSelector(LOGIN_BUTTON));
-        emailElement.sendKeys(email);
-        passwordElement.sendKeys(password);
+        sendKeys(LOGIN_EMAIL, email);
+        sendKeys(LOGIN_PASSWORD, password);
+        click(LOGIN_BUTTON);
         LOGGER.info("Enter into login, email = \"" + email + "\" " +
                 " and password \"" + password + "\"");
-        submit.click();
         return linkExists(AutomationExercisePage.LOGOUT_LINK);
     }
 }

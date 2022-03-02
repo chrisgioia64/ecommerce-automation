@@ -13,8 +13,9 @@ Feature: Cart
     And Verify 1 "Pure Cotton Neon Green Tshirt" at Rs. 850 each
     And Proceed to Checkout
     And Verify total amount is Rs. 1350
+    And Place Order
     And Enter in dummy credit card
-    Then Order has been placed
+    Then Verify Order has been placed
 
   Scenario: Simple Cart -- delete item and set quantity to 3
     Given I login with email "tomsawyer@gmail.com" and password "abcd123"
@@ -33,8 +34,9 @@ Feature: Cart
     And Verify 3 "Blue Top" at Rs. 500 each
     And Proceed to Checkout
     And Verify total amount is Rs. 1500
+    And Place Order
     And Enter in dummy credit card
-    Then Order has been placed
+    Then Verify Order has been placed
 
   Scenario: First add to cart, then login
     Given Search for "Cotton" on the products page
@@ -42,13 +44,14 @@ Feature: Cart
     And Add to Cart
     And I navigate to the cart page
     And Verify 1 "Pure Cotton Neon Green Tshirt" at Rs. 850 each
-    And Proceed to checkout
-    And Click on register/login popup
+    And Proceed to Checkout
+    And Click on login popup
     And I login with email "tomsawyer@gmail.com" and password "abcd123"
     And I navigate to the cart page
     And Verify 1 "Pure Cotton Neon Green Tshirt" at Rs. 850 each
     And Proceed to Checkout
     And Verify total amount is Rs. 850
+    And Place Order
     And Enter in dummy credit card
-    Then Order has been placed
+    Then Verify Order has been placed
 

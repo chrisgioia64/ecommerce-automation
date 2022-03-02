@@ -1,6 +1,7 @@
 package ecommerce.pages;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,41 @@ public abstract class PageObject {
         } catch (NoSuchElementException ex) {
             LOGGER.info("The select element \"" + elementName + "\" does not have option " +
                     "with value \"" + value + "\"");
+        }
+    }
+
+    /**
+     * Send input to the element with the given CSS selector
+     */
+    protected void sendKeys(String cssSelector, String input) {
+        WebElement element = driver.findElement(By.cssSelector(cssSelector));
+        element.clear();
+        element.sendKeys(input);
+    }
+
+    /**
+     * Click on the element with the given CSS Selector
+     */
+    protected void click(String cssSelector) {
+        WebElement element = driver.findElement(By.cssSelector(cssSelector));
+        element.click();
+    }
+
+    protected boolean elementExists(String cssSelector) {
+        try {
+            driver.findElement(By.cssSelector(cssSelector));
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    protected boolean linkExists(String linkText) {
+        try {
+            driver.findElement(By.linkText(linkText));
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
         }
     }
 

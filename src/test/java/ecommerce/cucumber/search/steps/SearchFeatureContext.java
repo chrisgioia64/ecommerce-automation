@@ -32,10 +32,4 @@ public class SearchFeatureContext {
         return productPage.getProductNames().contains(productName);
     }
 
-    public void close() {
-        // right now, we share the driver across different search contexts
-        // so we cannot terminate the driver
-//        driver.quit();
-    }
-
 }
