@@ -41,6 +41,15 @@ public class EnvironmentProperties {
      */
     public static final String KEY_STEP_WAIT = "cucumber_step_wait";
 
+    /**
+     * A boolean flag ("true" or "false") indicating whether we should perform
+     * cross browser on a representative set of test cases (currently includes
+     * front-end product scenarios for API 1 and API 3).
+     * Right now, only perform cross browser testing using the data-driven testing
+     * methodology. Perhaps there is a better way.
+     */
+    public static final String KEY_CROSS_BROWSER = "cross_browser";
+
     private static final Logger LOGGER = Logger.getLogger(EnvironmentProperties.class);
     private Properties prop;
     private final static EnvironmentProperties INSTANCE = new EnvironmentProperties();
@@ -139,6 +148,22 @@ public class EnvironmentProperties {
             LOGGER.warn("invalid step wait specified: \"" + cucumberWaitString + "\"");
         }
         return 0;
+    }
+
+    public boolean isCrossBrowserTesting() {
+        String flag = getProperty(KEY_CROSS_BROWSER);
+        if (flag == null) {
+            LOGGER.warn("No cross_browser flag specified. Defaulting to false");
+            return false;
+        }
+        if (flag.equalsIgnoreCase("true")) {
+            return true;
+        } else if (flag.equalsIgnoreCase("false")) {
+            return false;
+        } else {
+            LOGGER.warn("The cross_browser flag must be either true or false. Defaulting to false");
+            return false;
+        }
     }
 
     public static EnvironmentProperties getInstance() {

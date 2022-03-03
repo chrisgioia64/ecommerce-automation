@@ -87,8 +87,6 @@ public class LoginTest extends BaseTest {
                 testCases.add(testCase);
             }
         }
-        System.out.println("------------------");
-        System.out.println(testCases.size());
         int size = testCases.size();
         Object[][] result = new Object[size][1];
         int index = 0;

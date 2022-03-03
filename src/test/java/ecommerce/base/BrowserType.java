@@ -3,8 +3,8 @@ package ecommerce.base;
 public enum BrowserType {
     CHROME("chrome"),
     FIREFOX("firefox"),
-    EDGE("edge"),
-    IE("ie");
+    EDGE("edge");
+//    IE("ie");
 
     private final String name;
     BrowserType(String name) {

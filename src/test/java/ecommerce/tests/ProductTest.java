@@ -3,6 +3,8 @@ package ecommerce.tests;
 import ecommerce.api.APIUtils;
 import ecommerce.api.EcommerceApiException;
 import ecommerce.base.BaseTest;
+import ecommerce.base.BrowserType;
+import ecommerce.base.CrossBrowserUtils;
 import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.ProductDetailsPage;
 import ecommerce.pages.ProductsPage;
@@ -42,10 +44,10 @@ public class ProductTest extends BaseTest {
      */
     @Test(dataProvider = "productTestCases",
             groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
-    public void api1(ProductInformation product) {
+    public void api1(ProductInformation product, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + product.getId();
-        WebDriver driver = getDriver();
+        WebDriver driver = getDriver(browserType);
         driver.get(url);
 
         ProductDetailsPage detailsPage = new ProductDetailsPage(driver);
@@ -59,7 +61,16 @@ public class ProductTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @DataProvider(name = "productTestCases")
+    @DataProvider(name = "productTestCases", parallel = true)
+    public Object[][] getProductListOverBrowsers() {
+        Object[][] data = getProductList();
+        if (EnvironmentProperties.getInstance().isCrossBrowserTesting()) {
+            return CrossBrowserUtils.enumerateOverAllBrowsers(data);
+        } else {
+            return CrossBrowserUtils.enumerateDefaultBrowser(data);
+        }
+    }
+
     public Object[][] getProductList() {
         Response r = APIUtils.getResponseProductList();
         List<ProductInformation> productList = new LinkedList<>();
@@ -102,17 +113,26 @@ public class ProductTest extends BaseTest {
      */
     @Test(dataProvider = "getAllBrands",
         groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
-    public void api3(Integer id, String brand) {
+    public void api3(Integer id, String brand, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + id;
-        WebDriver driver = getDriver();
+        WebDriver driver = getDriver(browserType);
         driver.get(url);
 
         ProductDetailsPage detailsPage = new ProductDetailsPage(driver);
         assertEquals(detailsPage.parseBrand(), brand);
     }
 
-    @DataProvider(name = "getAllBrands")
+    @DataProvider(name = "getAllBrands", parallel = true)
+    public Object[][] getAllBrandsOverBrowsers() {
+        Object[][] data = getAllBrands();
+        if (EnvironmentProperties.getInstance().isCrossBrowserTesting()) {
+            return CrossBrowserUtils.enumerateOverAllBrowsers(data);
+        } else {
+            return CrossBrowserUtils.enumerateDefaultBrowser(data);
+        }
+    }
+
     public Object[][] getAllBrands() {
         Response r = APIUtils.getResponseBrandList();
         Map<Integer, String> map = new HashMap<>();
