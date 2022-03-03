@@ -5,6 +5,7 @@ import ecommerce.api.EcommerceApiException;
 import ecommerce.base.BaseTest;
 import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.ProductDetailsPage;
+import ecommerce.pages.ProductsPage;
 import ecommerce.scenarios.product.ProductInformation;
 import ecommerce.scenarios.product.ProductList;
 import ecommerce.scenarios.product.ProductUtils;
@@ -21,15 +22,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.*;
+import static org.testng.AssertJUnit.fail;
 
 
 public class ProductTest extends BaseTest {
@@ -41,7 +40,8 @@ public class ProductTest extends BaseTest {
      * Save in a Java Object. Check the product details page and see if the
      * API matches what’s on the page. (combination of front-end and API testing)
      */
-    @Test(dataProvider = "productTestCases")
+    @Test(dataProvider = "productTestCases",
+            groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
     public void api1(ProductInformation product) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + product.getId();
@@ -87,7 +87,7 @@ public class ProductTest extends BaseTest {
      * (unsupported request method)
      * Test that the response code is 405
      */
-    @Test
+    @Test(groups = {TestGroups.API, TestGroups.PRODUCT})
     public void api2() {
         Response response = APIUtils.postResponseProductList();
         String jsonResponse = response.asString();
@@ -100,7 +100,8 @@ public class ProductTest extends BaseTest {
     /**
      * Test API 3 : Get All Brands
      */
-    @Test(dataProvider = "getAllBrands")
+    @Test(dataProvider = "getAllBrands",
+        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
     public void api3(Integer id, String brand) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + id;
@@ -140,7 +141,7 @@ public class ProductTest extends BaseTest {
      * Test API 4 -- Put to All Brands (method unsupported)
      * Test that the response code is 405
      */
-    @Test
+    @Test(groups = {TestGroups.API, TestGroups.PRODUCT})
     public void api4() {
         Response response = APIUtils.putResponseBrandList();
         String jsonResponse = response.asString();
@@ -148,6 +149,50 @@ public class ProductTest extends BaseTest {
         Integer responseCode = obj.getInt("responseCode");
         String message = obj.getString("message");
         assertEquals("This request method is not supported.", message);
+    }
+
+    /**
+     * Makes sure that the front-end and the back-end return the same product names
+     * when performing a search query
+     * @param searchQuery the product to search for (e.g. "top")
+     */
+    @Parameters({"searchQuery"})
+    @Test(groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
+    public void api5(String searchQuery) {
+        // Backend call
+        Response r = APIUtils.postSearchProduct(searchQuery);
+        Set<String> productNamesAPI = new HashSet<>();
+        try {
+            productNamesAPI = APIUtils.extractJson(r, ProductUtils::getProductNamesFromSearch);
+        } catch (EcommerceApiException ex) {
+            String msg = "API Exception with search products " + ex.getMessage();
+            LOGGER.info(msg);
+            fail(msg);
+        } catch (JSONException ex) {
+            String msg = "Could not parse json response from search products " + ex.getMessage();
+            LOGGER.info(msg);
+            fail(msg);
+        }
+
+        // Frontend verification
+        WebDriver driver = getDriver();
+        ProductsPage page = new ProductsPage(driver);
+        page.navigateToPage();
+        page.searchAndSubmit(searchQuery);
+        Set<String> productNamesOnPage = page.getProductNames();
+
+        for (String productNameAPI : productNamesAPI) {
+            if (!productNamesOnPage.contains(productNameAPI)) {
+                fail("The following product should appear on the page: \""
+                        + productNameAPI + "\"");
+            }
+        }
+        for (String productNamePage : productNamesOnPage) {
+            if (!productNamesAPI.contains(productNamePage)) {
+                fail("The following product appears on the page but was not " +
+                        "returned in the API \"" + productNamePage + "\"");
+            }
+        }
     }
 
 }

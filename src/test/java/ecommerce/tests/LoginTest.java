@@ -32,7 +32,9 @@ public class LoginTest extends BaseTest {
      * @param testCase information about the login test case including
      *                 email, password, and is login successful
      */
-    @Test(dataProvider = "loginTestCases", dependsOnGroups = {"registration"})
+    @Test(dataProvider = "loginTestCases",
+            dependsOnGroups = {TestGroups.REGISTRATION},
+            groups = {TestGroups.LOGIN, TestGroups.API})
     public void APITest(LoginTestCase testCase) {
         try {
             boolean successful = APIUtils.loginSuccessful(testCase.getEmail(), testCase.getPassword());
@@ -47,7 +49,10 @@ public class LoginTest extends BaseTest {
      * @param testCase information about the login test case including
      *                 email, password, and is login successful
      */
-    @Test(dataProvider = "loginTestCases", dependsOnGroups = {"registration"})
+    @Test(dataProvider = "loginTestCases",
+            dependsOnGroups = {TestGroups.REGISTRATION},
+            groups = {TestGroups.LOGIN, TestGroups.FRONTEND}
+            )
     public void UITest(LoginTestCase testCase) {
         WebDriver driver = getDriver();
 

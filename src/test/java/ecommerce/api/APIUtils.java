@@ -80,6 +80,20 @@ public class APIUtils {
         return response;
     }
 
+    /**
+     * API 5 -- POST to Search Product
+     */
+    public static Response postSearchProduct(String searchQuery) {
+        Response response = given().relaxedHTTPSValidation()
+                .contentType(ContentType.URLENC)
+                .formParam("search_product", searchQuery)
+                .when()
+                .post("api/searchProduct")
+                .then()
+                .extract().response();
+        return response;
+    }
+
     public static <T> T extractJson(Response response, JsonExtractor<T> extractor) throws EcommerceApiException {
         if (response.getStatusCode() != 200) {
             throw new EcommerceApiException("Invalid status code for response : "

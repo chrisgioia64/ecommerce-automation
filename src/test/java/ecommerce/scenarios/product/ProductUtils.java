@@ -5,10 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ProductUtils {
 
@@ -75,6 +72,19 @@ public class ProductUtils {
             map.put(id, brand);
         }
         return map;
+    }
+
+    /**
+     * Extract the product names from the json response of API 5 (Search Product)
+     */
+    public static Set<String> getProductNamesFromSearch(String jsonResponse) {
+        JSONArray arr = new JSONObject(jsonResponse).getJSONArray("products");
+        Set<String> productNames = new HashSet<>();
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject item = arr.getJSONObject(i);
+            productNames.add(item.getString("name"));
+        }
+        return productNames;
     }
 
 }
