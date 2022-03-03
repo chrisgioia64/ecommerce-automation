@@ -3,9 +3,9 @@ package ecommerce.tests;
 import ecommerce.base.BaseTest;
 import ecommerce.api.APIUtils;
 import ecommerce.api.EcommerceApiException;
+import ecommerce.scenarios.registration.AccountExcelReader;
 import ecommerce.scenarios.registration.LoginCase;
-import ecommerce.scenarios.registration.RegistrationExcelReader;
-import ecommerce.scenarios.registration.RegistrationSpreadsheet;
+import ecommerce.scenarios.registration.AccountSpreadsheet;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
@@ -80,7 +80,7 @@ public class LoginTest extends BaseTest {
 
     @DataProvider(name = "loginTestCases", parallel = true)
     public Object[][] getData() {
-        RegistrationSpreadsheet spreadsheet = RegistrationExcelReader.getSpreadsheet();
+        AccountSpreadsheet spreadsheet = AccountExcelReader.getSpreadsheet();
         List<LoginCase> testCases = new LinkedList<>();
         for (LoginCase testCase : spreadsheet.getLoginTestCases().values()) {
             if (testCase.isIncludes()) {

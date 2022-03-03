@@ -15,15 +15,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class RegistrationExcelReader {
+public class AccountExcelReader {
 
-    private static final Logger LOGGER = Logger.getLogger(RegistrationExcelReader.class);
+    private static final Logger LOGGER = Logger.getLogger(AccountExcelReader.class);
     public static final DataFormatter DATE_FORMATTER = new DataFormatter();
 
-    public static RegistrationSpreadsheet getSpreadsheet() {
+    public static AccountSpreadsheet getSpreadsheet() {
         String filename = EnvironmentProperties.getInstance().getRegistrationExcelFileLocation();
         XSSFWorkbook workbook;
-        RegistrationSpreadsheet spreadsheet = new RegistrationSpreadsheet();
+        AccountSpreadsheet spreadsheet = new AccountSpreadsheet();
         try {
             workbook = new XSSFWorkbook(new File(filename));
             XSSFSheet userSheet = workbook.getSheetAt(0);

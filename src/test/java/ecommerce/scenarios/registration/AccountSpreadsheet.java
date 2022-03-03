@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * A Java object representation of the registration excel spreadsheet
  */
-public class RegistrationSpreadsheet {
+public class AccountSpreadsheet {
 
     private Map<Integer, RegisteredUser> registeredUserMap;
     private Map<Integer, RegistrationCase> testCase;

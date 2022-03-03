@@ -2,8 +2,8 @@ package ecommerce.tests;
 
 import ecommerce.base.BaseTest;
 import ecommerce.scenarios.registration.RegisteredUser;
-import ecommerce.scenarios.registration.RegistrationExcelReader;
-import ecommerce.scenarios.registration.RegistrationSpreadsheet;
+import ecommerce.scenarios.registration.AccountExcelReader;
+import ecommerce.scenarios.registration.AccountSpreadsheet;
 import ecommerce.scenarios.registration.RegistrationCase;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.LoginPage;
@@ -62,7 +62,7 @@ public class RegistrationTest extends BaseTest {
 
     @DataProvider(name = "registrationData", parallel = true)
     public Object[][] getRegistrationData() {
-        RegistrationSpreadsheet spreadsheet = RegistrationExcelReader.getSpreadsheet();
+        AccountSpreadsheet spreadsheet = AccountExcelReader.getSpreadsheet();
         List<RegistrationCase> testCases = new ArrayList<>();
         List<RegisteredUser> users = new ArrayList<>();
         for (RegistrationCase testCase : spreadsheet.getTestCase().values()) {
