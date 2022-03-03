@@ -3,7 +3,7 @@ package ecommerce.pages;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Home Page
+ * Page Object for Home Page
  * https://www.automationexercise.com/
  */
 public class HomePage extends AutomationExercisePage {

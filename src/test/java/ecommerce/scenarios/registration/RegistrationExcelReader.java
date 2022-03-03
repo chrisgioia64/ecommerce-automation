@@ -29,9 +29,9 @@ public class RegistrationExcelReader {
             XSSFSheet userSheet = workbook.getSheetAt(0);
             Map<Integer, RegisteredUser> userMap = getUsers(userSheet);
             XSSFSheet testCaseSheet = workbook.getSheetAt(1);
-            Map<Integer, RegistrationTestCase> testCaseMap = getTestcases(testCaseSheet);
+            Map<Integer, RegistrationCase> testCaseMap = getTestcases(testCaseSheet);
             XSSFSheet loginTestCaseSheet = workbook.getSheetAt(2);
-            Map<Integer, LoginTestCase> loginTestCaseMap = getLoginTestCases(loginTestCaseSheet);
+            Map<Integer, LoginCase> loginTestCaseMap = getLoginTestCases(loginTestCaseSheet);
             spreadsheet.setRegisteredUserMap(userMap);
             spreadsheet.setTestCase(testCaseMap);
             spreadsheet.setLoginTestCases(loginTestCaseMap);
@@ -48,8 +48,8 @@ public class RegistrationExcelReader {
     }
 
     private static Map<Integer,
-            RegistrationTestCase> getTestcases(XSSFSheet sheet) {
-        Map<Integer, RegistrationTestCase> map = new HashMap<>();
+            RegistrationCase> getTestcases(XSSFSheet sheet) {
+        Map<Integer, RegistrationCase> map = new HashMap<>();
         Iterator<Row> rowIterator = sheet.iterator();
         if (!rowIterator.hasNext()) {
             LOGGER.warn("The excel sheet for registration test cases has no data");
@@ -59,7 +59,7 @@ public class RegistrationExcelReader {
         rowIterator.next();
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-            RegistrationTestCase testCase = getTestCase(row);
+            RegistrationCase testCase = getTestCase(row);
             map.put(testCase.getTestCaseId(), testCase);
             rowNumber++;
         }
@@ -85,8 +85,8 @@ public class RegistrationExcelReader {
         return map;
     }
 
-    private static RegistrationTestCase getTestCase(Row row) {
-        RegistrationTestCase testCase = new RegistrationTestCase();
+    private static RegistrationCase getTestCase(Row row) {
+        RegistrationCase testCase = new RegistrationCase();
         testCase.setTestCaseId(getIntegerValue(row.getCell(0), "test case id"));
         testCase.setUserId(getIntegerValue(row.getCell(1), "user id"));
 
@@ -136,8 +136,8 @@ public class RegistrationExcelReader {
         return info;
     }
 
-    private static Map<Integer, LoginTestCase> getLoginTestCases(XSSFSheet sheet) {
-        Map<Integer, LoginTestCase> map = new HashMap<>();
+    private static Map<Integer, LoginCase> getLoginTestCases(XSSFSheet sheet) {
+        Map<Integer, LoginCase> map = new HashMap<>();
         Iterator<Row> rowIterator = sheet.iterator();
         if (!rowIterator.hasNext()) {
             LOGGER.warn("The excel sheet for login test cases has no rows");
@@ -147,14 +147,14 @@ public class RegistrationExcelReader {
         String emailSuffix = EnvironmentProperties.getInstance().getEmailSuffix();
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
-            LoginTestCase testCase = getLoginTestcase(row, emailSuffix);
+            LoginCase testCase = getLoginTestcase(row, emailSuffix);
             map.put(testCase.getId(), testCase);
         }
         return map;
     }
 
-    private static LoginTestCase getLoginTestcase(Row row, String emailSuffix) {
-        LoginTestCase testCase = new LoginTestCase();
+    private static LoginCase getLoginTestcase(Row row, String emailSuffix) {
+        LoginCase testCase = new LoginCase();
         testCase.setId(getIntegerValue(row.getCell(0), "test case id"));
         testCase.setEmail(getStringValue(row.getCell(1)) + emailSuffix);
         testCase.setPassword(getStringValue(row.getCell(2)));
@@ -190,8 +190,7 @@ public class RegistrationExcelReader {
     private static Integer getIntegerValue(Cell cell, String cellType) {
         String s = DATE_FORMATTER.formatCellValue(cell);
         try {
-            Integer result = Integer.parseInt(s);
-            return result;
+            return Integer.parseInt(s);
         } catch (NumberFormatException e) {
             LOGGER.warn("Expecting an integer from cell " + cellType +
                     " with value \"" + s + "\"");

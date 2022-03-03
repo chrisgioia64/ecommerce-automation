@@ -42,14 +42,12 @@ public class ProductsPage extends AutomationExercisePage {
      */
     public Set<String> getProductNames() {
         List<WebElement> elements = driver.findElements(By.cssSelector(PRODUCT_CARDS));
-        Set<String> productNames =
-                elements.stream().map( x -> x.findElement(By.tagName("p")).getText())
+        return elements.stream().map( x -> x.findElement(By.tagName("p")).getText())
                         .collect(Collectors.toSet());
-        return productNames;
     }
 
     /**
-     * @param productName
+     * Click on the product with PRODUCTNAME if it exists
      * @return true if the product was found in the page and clicked on, false otherwise
      */
     public boolean viewProductDetails(String productName) {

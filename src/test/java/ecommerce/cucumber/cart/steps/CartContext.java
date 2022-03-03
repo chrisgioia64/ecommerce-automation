@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 
 public class CartContext {
 
-    private final WebDriver driver;
     private final LoginPage loginPage;
     private final ProductsPage productPage;
     private final ProductDetailsPage productDetailsPage;
@@ -21,7 +20,7 @@ public class CartContext {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
 
-        driver = DriverFactory.getInstance().getDriver(type);
+        WebDriver driver = DriverFactory.getInstance().getDriver(type);
         driver.get(url);
         loginPage = new LoginPage(driver);
         productPage = new ProductsPage(driver);
@@ -32,26 +31,32 @@ public class CartContext {
         paymentDonePage = new PaymentDonePage(driver);
     }
 
+    /**
+     * Navigate to the login page and enter in credentials
+     */
     public void enterEmailPassword(String email, String password) {
         loginPage.navigateToPage();
         loginPage.enterLogin(email, password);
     }
 
+    /**
+     * Navigate to product page and use search bar to search for PRODUCTNAME
+     */
     public void searchProduct(String productName) {
         productPage.navigateToPage();
         productPage.searchAndSubmit(productName);
     }
 
     /**
-     * Precondition: we are located on the products page
-     * @param productName full name of the product
+     * Given we are on the products page, view the product details
+     * for the product with name PRODUCTNAME (if it exists)
      */
     public boolean viewProductDetails(String productName) {
         return productPage.viewProductDetails(productName);
     }
 
     /**
-     * Precondition: we are located on the product details page
+     * Given we are on the product details page, add the product to the cart
      */
     public void clickAddToCart() {
         productDetailsPage.clickAddToCart();
@@ -62,14 +67,14 @@ public class CartContext {
     }
 
     /**
-     * Precondition: we are located in the cart page
+     * Return the quantity (number of units) of PRODUCTNAME in the cart page
      */
     public int getQuantity(String productName) {
         return cartPage.getUnits(productName);
     }
 
     /**
-     * Precondition: we are located in the cart page
+     * Return the unit price of PRODUCTNAME in the cart page
      */
     public int getUnitPrice(String productName) {
        return cartPage.getUnitPrice(productName);
@@ -100,6 +105,11 @@ public class CartContext {
         return paymentDonePage.downloadInvoiceButtonExists();
     }
 
+    /**
+     * Removes the product PRODUCTNAME from the cart (if it exists)
+     * Since this procedure might take some time to update the front-end,
+     * add an artificial wait.
+     */
     public void removeFromCart(String productName) {
         cartPage.removeFromCart(productName);
         // this is hacky but we need to give the page time to reload
@@ -110,10 +120,18 @@ public class CartContext {
         }
     }
 
+    /**
+     * On the product details page, set the quantity of the selected product
+     */
     public void setQuantity(int quantity) {
         productDetailsPage.setQuantity(quantity);
     }
 
+    /**
+     * When there is nobody logged in, and we are on the cart page and attempt
+     * to checkout, a popup will appear asking us if we want to sign in.
+     * Click on the "login" link of this popup.
+     */
     public void popupClickOnLoginLink() {
         cartPage.popupClickOnLoginLink();
     }

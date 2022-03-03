@@ -2,6 +2,9 @@ package ecommerce.scenarios.product;
 
 import java.util.List;
 
+/**
+ * POJO for a list of all products
+ */
 public class ProductList {
 
     public List<ProductInformation> productList;

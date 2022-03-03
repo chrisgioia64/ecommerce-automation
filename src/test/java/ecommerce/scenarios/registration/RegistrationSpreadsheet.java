@@ -8,8 +8,8 @@ import java.util.Map;
 public class RegistrationSpreadsheet {
 
     private Map<Integer, RegisteredUser> registeredUserMap;
-    private Map<Integer, RegistrationTestCase> testCase;
-    private Map<Integer, LoginTestCase> loginTestCases;
+    private Map<Integer, RegistrationCase> testCase;
+    private Map<Integer, LoginCase> loginTestCases;
 
     public Map<Integer, RegisteredUser> getRegisteredUserMap() {
         return registeredUserMap;
@@ -19,19 +19,19 @@ public class RegistrationSpreadsheet {
         this.registeredUserMap = registeredUserMap;
     }
 
-    public Map<Integer, RegistrationTestCase> getTestCase() {
+    public Map<Integer, RegistrationCase> getTestCase() {
         return testCase;
     }
 
-    public void setTestCase(Map<Integer, RegistrationTestCase> testCase) {
+    public void setTestCase(Map<Integer, RegistrationCase> testCase) {
         this.testCase = testCase;
     }
 
-    public Map<Integer, LoginTestCase> getLoginTestCases() {
+    public Map<Integer, LoginCase> getLoginTestCases() {
         return loginTestCases;
     }
 
-    public void setLoginTestCases(Map<Integer, LoginTestCase> loginTestCases) {
+    public void setLoginTestCases(Map<Integer, LoginCase> loginTestCases) {
         this.loginTestCases = loginTestCases;
     }
 }

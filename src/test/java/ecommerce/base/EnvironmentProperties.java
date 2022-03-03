@@ -23,24 +23,26 @@ public class EnvironmentProperties {
      */
     public static final String KEY_REGISTRATION_FILE = "registration_spreadsheet";
 
-    /** Products with ID 1 through NUM_PRODUCTS are tested against product_details. */
+    /**
+     * For APIs 1 and 3, we test that the API results match the front-end.
+     * However, rather than testing the results for all products, we only test
+     * for products 1 through NUM_PRODUCTS. */
     public static final String KEY_NUM_PRODUCTS = "num_products";
 
-    /** For the registration test scenario, adds a suffix to make the email unique.
+    /**
+     *  For the registration test scenario, adds a suffix to make the email unique.
      *  This is to ensure that the email address does not already exist.
      */
     public static final String KEY_REGISTRATION_EMAIL_SUFFIX = "registration_email_suffix";
 
     /**
      * An integer representing the number of seconds we should wait between cucumber steps
-     * During product, value should be 0. Set to non-zero number for debugging purposes
+     * During production, value should be 0. Set to non-zero number for debugging purposes
      */
     public static final String KEY_STEP_WAIT = "cucumber_step_wait";
 
     private static final Logger LOGGER = Logger.getLogger(EnvironmentProperties.class);
-
     private Properties prop;
-
     private final static EnvironmentProperties INSTANCE = new EnvironmentProperties();
 
     private EnvironmentProperties() {
@@ -111,9 +113,10 @@ public class EnvironmentProperties {
         String numProducts = getProperty(KEY_NUM_PRODUCTS);
         if (numProducts == null) {
             LOGGER.error("There is no numProducts property specified");
+            return 0;
         }
         try {
-            Integer result = Integer.parseInt(numProducts);
+            int result = Integer.parseInt(numProducts);
             LOGGER.info("The numProducts property is set to " + result);
             return result;
         } catch (NumberFormatException e) {
@@ -126,9 +129,10 @@ public class EnvironmentProperties {
         String cucumberWaitString = getProperty(KEY_STEP_WAIT);
         if (cucumberWaitString == null) {
             LOGGER.warn("No step wait specified in properties file");
+            return 0;
         }
         try {
-            Integer seconds = Integer.parseInt(cucumberWaitString);
+            int seconds = Integer.parseInt(cucumberWaitString);
             LOGGER.info("Cucumber step wait specified in seconds as " + seconds);
             return seconds;
         } catch (NumberFormatException e) {

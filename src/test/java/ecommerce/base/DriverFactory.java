@@ -11,6 +11,7 @@ public class DriverFactory {
 
     private static final DriverFactory INSTANCE = new DriverFactory();
 
+    /** The folder that contains the webdrivers such as chromedriver.exe. */
     private static final String DRIVER_DIR = "drivers";
 
     private static final Logger LOGGER = Logger.getLogger(DriverFactory.class);
@@ -37,6 +38,9 @@ public class DriverFactory {
     private final static ThreadLocal<WebDriver> threadLocal = new ThreadLocal<>() {
     };
 
+    /**
+     * Each thread gets at most one web driver.
+     */
     public WebDriver getDriver(BrowserType type) {
         if (threadLocal.get() == null) {
             if (type == null) {

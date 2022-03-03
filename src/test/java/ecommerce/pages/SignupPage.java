@@ -6,6 +6,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Page Object for Registration Signup page
+ * https://www.automationexercise.com/signup
+ */
 public class SignupPage extends AutomationExercisePage {
 
     public static final String URL = "signup";
@@ -65,23 +69,16 @@ public class SignupPage extends AutomationExercisePage {
     }
 
     public void enterRegistration(RegisteredUser user) {
-        WebElement nameElement = driver.findElement(By.cssSelector(NAME_FIELD));
-        nameElement.clear();
-        nameElement.sendKeys(user.getName());
-
+        sendKeys(NAME_FIELD, user.getName());
         sendKeys(PASSWORD_FIELD, user.getPassword());
-
         enterDob(user.getDay(), user.getMonth(), user.getYear());
 
         sendKeys(FIRST_NAME_FIELD, user.getFirstName());
         sendKeys(LAST_NAME_FIELD, user.getLastName());
-
         sendKeys(COMPANY_FIELD, user.getCompany());
         sendKeys(ADDRESS_1_FIELD, user.getAddress1());
         sendKeys(ADDRESS_2_FIELD, user.getAddress2());
-
         enterCountry(user.getCountry());
-
         sendKeys(STATE_FIELD, user.getState());
         sendKeys(CITY_FIELD, user.getCity());
         sendKeys(ZIP_FIELD, user.getZipCode());

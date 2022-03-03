@@ -2,6 +2,10 @@ package ecommerce.pages;
 
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Page Object for Payment Page (where credit card details are entered)
+ * https://www.automationexercise.com/payment
+ */
 public class PaymentPage extends AutomationExercisePage {
 
     public static final String URL = "payment";

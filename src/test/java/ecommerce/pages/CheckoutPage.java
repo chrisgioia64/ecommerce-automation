@@ -6,6 +6,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
+/**
+ * Page Object for Checkout Page
+ * https://www.automationexercise.com/checkout
+ */
 public class CheckoutPage extends AutomationExercisePage {
 
     public static final String URL = "checkout";

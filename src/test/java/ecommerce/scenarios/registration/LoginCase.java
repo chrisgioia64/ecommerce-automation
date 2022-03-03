@@ -1,6 +1,6 @@
 package ecommerce.scenarios.registration;
 
-public class LoginTestCase {
+public class LoginCase {
     private int id;
     private String email;
     private String password;

@@ -6,6 +6,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * The base page object for all pages on the ecommerce automation site.
+ * Shares common structure such as the header links.
+ */
 public abstract class AutomationExercisePage extends PageObject {
 
     private static final String HOME_LINK = "Home";
@@ -76,7 +80,7 @@ public abstract class AutomationExercisePage extends PageObject {
      */
     public abstract void navigateToPage();
 
-    protected String getFullUrl(String subUrl) {
+    private String getFullUrl(String subUrl) {
         return EnvironmentProperties.getInstance().getUrl() + "/" + subUrl;
     }
 

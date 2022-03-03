@@ -1,7 +1,7 @@
 package ecommerce.scenarios.registration;
 
 
-public class RegistrationTestCase {
+public class RegistrationCase {
     private int testCaseId;
     private int userId;
     private boolean successful;

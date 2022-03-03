@@ -7,6 +7,9 @@ import org.json.JSONObject;
 
 import java.util.*;
 
+/**
+ * Utility methods for parsing json response for product scenarios
+ */
 public class ProductUtils {
 
     /**
@@ -25,8 +28,7 @@ public class ProductUtils {
     }
 
     /**
-     * @param productObject
-     * @return
+     * Helper method to extract ProductInformation POJO from json object
      */
     private static ProductInformation extractProduct(JSONObject productObject) {
         ProductInformation result = new ProductInformation();
@@ -50,8 +52,7 @@ public class ProductUtils {
         String[] arr = priceString.split("\\s+");
         if (arr.length == 2) {
             try {
-                Integer i = Integer.parseInt(arr[1]);
-                return i;
+                return Integer.parseInt(arr[1]);
             } catch (NumberFormatException e) {
                 throw new JSONException("could not parse price string : " + priceString);
             }

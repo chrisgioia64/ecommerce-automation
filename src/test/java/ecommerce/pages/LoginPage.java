@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * Login Page
+ * Page Object for Login Page
  * https://www.automationexercise.com/login
  */
 public class LoginPage extends AutomationExercisePage {
@@ -55,7 +55,7 @@ public class LoginPage extends AutomationExercisePage {
      * Enters email and password into the Login form
      * @param email the email of the account
      * @param password the password of the account
-     * @return
+     * @return true if login was successful
      */
     public boolean enterLogin(String email, String password) {
         sendKeys(LOGIN_EMAIL, email);

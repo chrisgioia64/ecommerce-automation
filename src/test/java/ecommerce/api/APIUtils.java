@@ -12,16 +12,19 @@ import static io.restassured.RestAssured.given;
 
 /**
  * Utility methods for performing API requests
+ * See the list of API methods at:
+ * https://www.automationexercise.com/api_list
  */
 public class APIUtils {
 
     public static final Logger LOGGER = Logger.getLogger(APIUtils.class);
 
     /**
+     * API 7 / API 10
      * Returns the response object from calling verify login
      */
     private static Response getResponseVerifyLogin(String email, String password) {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .contentType(ContentType.URLENC)
                 .formParam("email", email)
                 .formParam("password", password)
@@ -29,72 +32,67 @@ public class APIUtils {
                 .post("api/verifyLogin")
                 .then()
                 .extract().response();
-        return response;
     }
 
     /**
      * API 1 : Get all products list
      */
     public static Response getResponseProductList() {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .when()
                 .get("api/productsList")
                 .then()
                 .extract().response();
-        return response;
     }
 
     /**
      * API 2 -- Post to all products list
      */
     public static Response postResponseProductList() {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .when()
                 .post("api/productsList")
                 .then()
                 .extract().response();
-        return response;
     }
 
     /**
      * API 3 - Get all brands list
      */
     public static Response getResponseBrandList() {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .when()
                 .get("api/brandsList")
                 .then()
                 .extract().response();
-        return response;
     }
 
     /**
      * API 4 - Put to all brands
      */
     public static Response putResponseBrandList() {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .when()
                 .put("api/brandsList")
                 .then()
                 .extract().response();
-        return response;
     }
 
     /**
      * API 5 -- POST to Search Product
      */
     public static Response postSearchProduct(String searchQuery) {
-        Response response = given().relaxedHTTPSValidation()
+        return given().relaxedHTTPSValidation()
                 .contentType(ContentType.URLENC)
                 .formParam("search_product", searchQuery)
                 .when()
                 .post("api/searchProduct")
                 .then()
                 .extract().response();
-        return response;
     }
 
-    public static <T> T extractJson(Response response, JsonExtractor<T> extractor) throws EcommerceApiException {
+    public static <T> T extractJson(Response response, JsonExtractor<T> extractor)
+            throws EcommerceApiException {
         if (response.getStatusCode() != 200) {
             throw new EcommerceApiException("Invalid status code for response : "
                 + response.getStatusCode());

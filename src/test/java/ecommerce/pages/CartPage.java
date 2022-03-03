@@ -7,6 +7,10 @@ import org.openqa.selenium.WebElement;
 
 import java.util.stream.Stream;
 
+/**
+ * Page Object for View Cart Page
+ * https://www.automationexercise.com/view_cart
+ */
 public class CartPage extends AutomationExercisePage {
 
     /** The sub-url of the Cart page. */
@@ -42,8 +46,6 @@ public class CartPage extends AutomationExercisePage {
 
     /**
      * Return a stream of "TR" web elements that contain the product name.
-     * @param productName
-     * @return
      */
     private Stream<WebElement> getRows(String productName) {
         return driver.findElements(By.cssSelector(ROWS_SELECTOR)).stream()
@@ -59,7 +61,7 @@ public class CartPage extends AutomationExercisePage {
         return getRows(productName)
                 .map(
                 x -> Integer.parseInt(x.findElement(By.cssSelector(ROW_QUANTITY_SELECTOR)).getText()))
-                .reduce(0, (x, y) -> Math.max(x, y));
+                .reduce(0, Math::max);
     }
 
     /**
@@ -72,7 +74,7 @@ public class CartPage extends AutomationExercisePage {
                 .map(
                      x -> PageUtils.extractPrice(x.findElement(By.cssSelector(ROW_UNIT_PRICE_SELECTOR)).getText())
                      )
-                     .reduce(0, (x, y) -> Math.max(x, y));
+                     .reduce(0, Math::max);
     }
 
     public void removeFromCart(String productName) {

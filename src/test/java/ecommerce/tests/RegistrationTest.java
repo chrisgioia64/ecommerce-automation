@@ -4,7 +4,7 @@ import ecommerce.base.BaseTest;
 import ecommerce.scenarios.registration.RegisteredUser;
 import ecommerce.scenarios.registration.RegistrationExcelReader;
 import ecommerce.scenarios.registration.RegistrationSpreadsheet;
-import ecommerce.scenarios.registration.RegistrationTestCase;
+import ecommerce.scenarios.registration.RegistrationCase;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.LoginPage;
 import ecommerce.pages.SignupPage;
@@ -24,7 +24,7 @@ public class RegistrationTest extends BaseTest {
 
     @Test(dataProvider = "registrationData",
             groups = {TestGroups.REGISTRATION, TestGroups.FRONTEND})
-    public void registrationTest(RegistrationTestCase testCase, RegisteredUser user) {
+    public void registrationTest(RegistrationCase testCase, RegisteredUser user) {
         WebDriver driver = getDriver();
 
         HomePage homePage = new HomePage(driver);
@@ -63,9 +63,9 @@ public class RegistrationTest extends BaseTest {
     @DataProvider(name = "registrationData", parallel = true)
     public Object[][] getRegistrationData() {
         RegistrationSpreadsheet spreadsheet = RegistrationExcelReader.getSpreadsheet();
-        List<RegistrationTestCase> testCases = new ArrayList<>();
+        List<RegistrationCase> testCases = new ArrayList<>();
         List<RegisteredUser> users = new ArrayList<>();
-        for (RegistrationTestCase testCase : spreadsheet.getTestCase().values()) {
+        for (RegistrationCase testCase : spreadsheet.getTestCase().values()) {
             RegisteredUser user = spreadsheet.getRegisteredUserMap().get(testCase.getUserId());
             if (user != null && testCase.isIncludes()) {
                 testCases.add(testCase);

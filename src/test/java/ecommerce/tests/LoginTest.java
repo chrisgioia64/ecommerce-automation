@@ -3,7 +3,7 @@ package ecommerce.tests;
 import ecommerce.base.BaseTest;
 import ecommerce.api.APIUtils;
 import ecommerce.api.EcommerceApiException;
-import ecommerce.scenarios.registration.LoginTestCase;
+import ecommerce.scenarios.registration.LoginCase;
 import ecommerce.scenarios.registration.RegistrationExcelReader;
 import ecommerce.scenarios.registration.RegistrationSpreadsheet;
 import ecommerce.pages.HomePage;
@@ -35,7 +35,7 @@ public class LoginTest extends BaseTest {
     @Test(dataProvider = "loginTestCases",
             dependsOnGroups = {TestGroups.REGISTRATION},
             groups = {TestGroups.LOGIN, TestGroups.API})
-    public void APITest(LoginTestCase testCase) {
+    public void APITest(LoginCase testCase) {
         try {
             boolean successful = APIUtils.loginSuccessful(testCase.getEmail(), testCase.getPassword());
             assertEquals(testCase.getComments(), successful, testCase.isSuccessful());
@@ -53,7 +53,7 @@ public class LoginTest extends BaseTest {
             dependsOnGroups = {TestGroups.REGISTRATION},
             groups = {TestGroups.LOGIN, TestGroups.FRONTEND}
             )
-    public void UITest(LoginTestCase testCase) {
+    public void UITest(LoginCase testCase) {
         WebDriver driver = getDriver();
 
         HomePage homePage = new HomePage(driver);
@@ -81,8 +81,8 @@ public class LoginTest extends BaseTest {
     @DataProvider(name = "loginTestCases", parallel = true)
     public Object[][] getData() {
         RegistrationSpreadsheet spreadsheet = RegistrationExcelReader.getSpreadsheet();
-        List<LoginTestCase> testCases = new LinkedList<>();
-        for (LoginTestCase testCase : spreadsheet.getLoginTestCases().values()) {
+        List<LoginCase> testCases = new LinkedList<>();
+        for (LoginCase testCase : spreadsheet.getLoginTestCases().values()) {
             if (testCase.isIncludes()) {
                 testCases.add(testCase);
             }
@@ -92,7 +92,7 @@ public class LoginTest extends BaseTest {
         int size = testCases.size();
         Object[][] result = new Object[size][1];
         int index = 0;
-        for (LoginTestCase testCase : testCases) {
+        for (LoginCase testCase : testCases) {
             result[index][0] = testCase;
             index++;
         }
