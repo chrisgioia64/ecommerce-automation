@@ -6,6 +6,8 @@ import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.*;
 import org.openqa.selenium.WebDriver;
 
+import java.time.Duration;
+
 public class CartContext {
 
     private final LoginPage loginPage;
@@ -15,12 +17,13 @@ public class CartContext {
     private final CheckoutPage checkoutPage;
     private final PaymentPage paymentPage;
     private final PaymentDonePage paymentDonePage;
+    private final WebDriver driver;
 
     public CartContext() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
 
-        WebDriver driver = DriverFactory.getInstance().getDriver(type);
+        driver = DriverFactory.getInstance().getDriver(type);
         driver.get(url);
         loginPage = new LoginPage(driver);
         productPage = new ProductsPage(driver);
@@ -29,6 +32,10 @@ public class CartContext {
         checkoutPage = new CheckoutPage(driver);
         paymentPage = new PaymentPage(driver);
         paymentDonePage = new PaymentDonePage(driver);
+    }
+
+    public void implicitWait(int seconds) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(seconds));
     }
 
     /**
@@ -112,7 +119,7 @@ public class CartContext {
      */
     public void removeFromCart(String productName) {
         cartPage.removeFromCart(productName);
-        // this is hacky but we need to give the page time to reload
+        // TODO : this is hacky but we need to give the page time to reload
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -134,6 +141,11 @@ public class CartContext {
      */
     public void popupClickOnLoginLink() {
         cartPage.popupClickOnLoginLink();
+    }
+
+    public void clearCart() {
+        cartPage.navigateToPage();
+        cartPage.clearCart();
     }
 
     /**

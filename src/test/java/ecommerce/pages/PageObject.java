@@ -5,7 +5,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 /**
  * This is the base page object classes from which all page objects extend
@@ -16,8 +20,11 @@ public abstract class PageObject {
 
     private static final Logger LOGGER = Logger.getLogger(PageObject.class);
 
+    private WebDriverWait wait;
+
     public PageObject(WebDriver driver) {
         this.driver = driver;
+        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
     protected void selectByValue(WebElement element, String value, String elementName) {
@@ -34,7 +41,9 @@ public abstract class PageObject {
      * Send input to the element with the given CSS selector
      */
     protected void sendKeys(String cssSelector, String input) {
-        WebElement element = driver.findElement(By.cssSelector(cssSelector));
+        // explicit wait
+        WebElement element = wait.until(ExpectedConditions.visibilityOf(
+                driver.findElement(By.cssSelector(cssSelector))));
         element.clear();
         element.sendKeys(input);
     }
@@ -43,7 +52,9 @@ public abstract class PageObject {
      * Click on the element with the given CSS Selector
      */
     protected void click(String cssSelector) {
-        WebElement element = driver.findElement(By.cssSelector(cssSelector));
+        // explicit wait
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(
+                driver.findElement(By.cssSelector(cssSelector))));
         element.click();
     }
 

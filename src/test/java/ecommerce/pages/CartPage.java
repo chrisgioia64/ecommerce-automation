@@ -45,6 +45,13 @@ public class CartPage extends AutomationExercisePage {
     }
 
     /**
+     * Clear all items in the cart
+     */
+    public void clearCart() {
+        driver.findElements(By.cssSelector(ROWS_SELECTOR)).stream().forEach(CartPage::deleteRow);
+    }
+
+    /**
      * Return a stream of "TR" web elements that contain the product name.
      */
     private Stream<WebElement> getRows(String productName) {
@@ -77,8 +84,12 @@ public class CartPage extends AutomationExercisePage {
                      .reduce(0, Math::max);
     }
 
+    private static void deleteRow(WebElement rowElement) {
+        rowElement.findElement(By.cssSelector(ROW_DELETE_ITEM)).click();
+    }
+
     public void removeFromCart(String productName) {
-        getRows(productName).forEach(x -> x.findElement(By.cssSelector(ROW_DELETE_ITEM)).click());
+        getRows(productName).forEach(CartPage::deleteRow);
     }
 
     public void popupClickOnLoginLink() {

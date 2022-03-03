@@ -31,6 +31,7 @@ public class CartSteps {
 
     @After
     public void after() {
+        context.clearCart();
         context.logout();
     }
 
@@ -41,6 +42,7 @@ public class CartSteps {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+//        context.implicitWait(stepWait);
     }
 
     @Given("I login with email {string} and password {string}")
@@ -88,17 +90,29 @@ public class CartSteps {
         softAssert.assertAll();
     }
 
+    @Given("Verify {int} {string}")
+    public void verify_at_rs_each(Integer expectedQuantity, String productName) {
+        int actualQuantity = context.getQuantity(productName);
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(
+                actualQuantity, expectedQuantity, 1e-1, "For product name " + productName + " " +
+                        "expected quantity and actual quantity do not match");
+        softAssert.assertAll();
+    }
+
     @Given("Proceed to Checkout")
     public void proceed_to_checkout() {
         context.clickCheckoutButton();
     }
 
-    @Given("Verify total amount is Rs. {int}")
+    @Given("^Verify total amount is Rs. (\\d+)$")
     public void verify_total_amount_is_rs(Integer expectedPrice) {
         int actualPrice = context.getTotalPrice();
         assertEquals(actualPrice, expectedPrice, 1e-1,
                 "Total price for checkout does not match");
     }
+
 
     @Given("Place Order")
     public void place_order() {
