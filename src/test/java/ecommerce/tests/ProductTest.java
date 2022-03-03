@@ -10,17 +10,21 @@ import ecommerce.scenarios.product.ProductList;
 import ecommerce.scenarios.product.ProductUtils;
 import io.restassured.response.Response;
 import org.apache.log4j.Logger;
+import org.apiguardian.api.API;
 import org.hamcrest.Matchers;
 import org.hamcrest.Matchers.*;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.AssertJUnit.assertEquals;
@@ -38,7 +42,7 @@ public class ProductTest extends BaseTest {
      * API matches what’s on the page. (combination of front-end and API testing)
      */
     @Test(dataProvider = "productTestCases")
-    public void productTest(ProductInformation product) {
+    public void api1(ProductInformation product) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + product.getId();
         WebDriver driver = getDriver();
@@ -76,6 +80,74 @@ public class ProductTest extends BaseTest {
             }
         }
         return res;
+    }
+
+    /**
+     * Test API 2 --- POST to All Products
+     * (unsupported request method)
+     * Test that the response code is 405
+     */
+    @Test
+    public void api2() {
+        Response response = APIUtils.postResponseProductList();
+        String jsonResponse = response.asString();
+        JSONObject obj = new JSONObject(jsonResponse);
+        Integer responseCode = obj.getInt("responseCode");
+        String message = obj.getString("message");
+        assertEquals("This request method is not supported.", message);
+    }
+
+    /**
+     * Test API 3 : Get All Brands
+     */
+    @Test(dataProvider = "getAllBrands")
+    public void api3(Integer id, String brand) {
+        String url = EnvironmentProperties.getInstance().getUrl() + "/"
+                + ProductDetailsPage.PAGE_URL + "/" + id;
+        WebDriver driver = getDriver();
+        driver.get(url);
+
+        ProductDetailsPage detailsPage = new ProductDetailsPage(driver);
+        assertEquals(detailsPage.parseBrand(), brand);
+    }
+
+    @DataProvider(name = "getAllBrands")
+    public Object[][] getAllBrands() {
+        Response r = APIUtils.getResponseBrandList();
+        Map<Integer, String> map = new HashMap<>();
+        try {
+            map = APIUtils.extractJson(r, ProductUtils::getIdToBrandMap);
+        } catch (EcommerceApiException ex) {
+            LOGGER.info("API Exception with retrieving brand list " + ex.getMessage());
+        } catch (JSONException ex) {
+            LOGGER.info("Could not parse json response from brand list " + ex.getMessage());
+        }
+        int size = Math.min(EnvironmentProperties.getInstance().getNumProducts(), map.size());
+        Object[][] res = new Object[size][2];
+        int index = 0;
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            res[index][0] = entry.getKey();
+            res[index][1] = entry.getValue();
+            index++;
+            if (index >= size) {
+                break;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Test API 4 -- Put to All Brands (method unsupported)
+     * Test that the response code is 405
+     */
+    @Test
+    public void api4() {
+        Response response = APIUtils.putResponseBrandList();
+        String jsonResponse = response.asString();
+        JSONObject obj = new JSONObject(jsonResponse);
+        Integer responseCode = obj.getInt("responseCode");
+        String message = obj.getString("message");
+        assertEquals("This request method is not supported.", message);
     }
 
 }

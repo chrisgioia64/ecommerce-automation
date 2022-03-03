@@ -5,11 +5,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ProductUtils {
 
+    /**
+     * Extract from the json response of API 1 (Get all products list)
+     * and convert to a "ProductList" java object to be used for front-end testing
+     */
     public static ProductList extractProductList(String json) throws JSONException {
         JSONObject obj = new JSONObject(json);
         JSONArray productArray = obj.getJSONArray("products");
@@ -21,6 +27,10 @@ public class ProductUtils {
         return new ProductList(productList);
     }
 
+    /**
+     * @param productObject
+     * @return
+     */
     private static ProductInformation extractProduct(JSONObject productObject) {
         ProductInformation result = new ProductInformation();
         result.setId(productObject.getInt("id"));
@@ -35,6 +45,10 @@ public class ProductUtils {
         return result;
     }
 
+    /**
+     * Helper method to extract from the "price" key-value pair of the json string
+     * in API 1 (Get all products)
+     */
     private static int extractPrice(String priceString) {
         String[] arr = priceString.split("\\s+");
         if (arr.length == 2) {
@@ -46,6 +60,21 @@ public class ProductUtils {
             }
         }
         throw new JSONException("could not parse price string : " + priceString);
+    }
+
+    /**
+     * Extract from the json response body of API 3 -- Get all brands
+     */
+    public static Map<Integer, String> getIdToBrandMap(String jsonResponse) {
+        Map<Integer, String> map = new LinkedHashMap<>();
+        JSONArray array = new JSONObject(jsonResponse).getJSONArray("brands");
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject item = array.getJSONObject(i);
+            Integer id = item.getInt("id");
+            String brand = item.getString("brand");
+            map.put(id, brand);
+        }
+        return map;
     }
 
 }

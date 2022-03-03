@@ -44,6 +44,42 @@ public class APIUtils {
         return response;
     }
 
+    /**
+     * API 2 -- Post to all products list
+     */
+    public static Response postResponseProductList() {
+        Response response = given().relaxedHTTPSValidation()
+                .when()
+                .post("api/productsList")
+                .then()
+                .extract().response();
+        return response;
+    }
+
+    /**
+     * API 3 - Get all brands list
+     */
+    public static Response getResponseBrandList() {
+        Response response = given().relaxedHTTPSValidation()
+                .when()
+                .get("api/brandsList")
+                .then()
+                .extract().response();
+        return response;
+    }
+
+    /**
+     * API 4 - Put to all brands
+     */
+    public static Response putResponseBrandList() {
+        Response response = given().relaxedHTTPSValidation()
+                .when()
+                .put("api/brandsList")
+                .then()
+                .extract().response();
+        return response;
+    }
+
     public static <T> T extractJson(Response response, JsonExtractor<T> extractor) throws EcommerceApiException {
         if (response.getStatusCode() != 200) {
             throw new EcommerceApiException("Invalid status code for response : "
