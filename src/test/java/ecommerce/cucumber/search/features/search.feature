@@ -14,3 +14,17 @@ Feature: Product Search
     And Product Search contains product "Men Tshirt"
     And Product Search does not contain product "Premium Polo T-Shirts"
     Then Product Search does not contain product "Pure Cotton Neon Green Tshirt"
+
+  Scenario: Search for gibberish ("foo")
+    Given I am on the products page
+    When Search for "Foo"
+    And Product Search does not contain product "Men Tshirt"
+    Then Product Search does not contain product "Premium Polo T-Shirts"
+
+  Scenario: Search for empty string which returns everything
+    Given I am on the products page
+    When Search for ""
+    And Product Search contains product "Blue Top"
+    And Product Search contains product "Men Tshirt"
+    Then Product Search contains product "Lace Top For Women"
+    Then Product Search does not contain product "Some foo clothing object"
