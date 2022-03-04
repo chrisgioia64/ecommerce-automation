@@ -12,7 +12,8 @@ import ecommerce.scenarios.product.ProductInformation;
 import ecommerce.scenarios.product.ProductList;
 import ecommerce.scenarios.product.ProductUtils;
 import io.restassured.response.Response;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apiguardian.api.API;
 import org.hamcrest.Matchers;
 import org.hamcrest.Matchers.*;
@@ -35,7 +36,7 @@ import static org.testng.AssertJUnit.fail;
 
 public class ProductTest extends BaseTest {
 
-    private final static Logger LOGGER = Logger.getLogger(ProductTest.class);
+    private final static Logger LOGGER = LogManager.getLogger(ProductTest.class);
 
     /**
      * Use API 1 (Get all products) to retrieve information about all products.
@@ -49,6 +50,8 @@ public class ProductTest extends BaseTest {
                 + ProductDetailsPage.PAGE_URL + "/" + product.getId();
         WebDriver driver = getDriver(browserType);
         driver.get(url);
+        LOGGER.info("Pre Verify between API and product details page for '{}'",
+                product.toString());
 
         ProductDetailsPage detailsPage = new ProductDetailsPage(driver);
 
@@ -59,6 +62,9 @@ public class ProductTest extends BaseTest {
         softAssert.assertEquals(detailsPage.parseInnerCategory(), product.getInnerCategory());
         softAssert.assertEquals(detailsPage.parseBrand(), product.getBrand());
         softAssert.assertAll();
+        LOGGER.info("Successfully Verified between API and product details page for '{}'",
+                product.toString());
+
     }
 
     @DataProvider(name = "productTestCases", parallel = true)
@@ -77,9 +83,9 @@ public class ProductTest extends BaseTest {
         try {
             productList = APIUtils.extractJson(r, ProductUtils::extractProductList).getProductList();
         } catch (EcommerceApiException ex) {
-            LOGGER.info("API Exception with retrieving product list " + ex.getMessage());
+            LOGGER.warn("API Exception with retrieving product list " + ex.getMessage());
         } catch (JSONException ex) {
-            LOGGER.info("Could not parse json response from product list " + ex.getMessage());
+            LOGGER.warn("Could not parse json response from product list " + ex.getMessage());
         }
         int size = Math.min(EnvironmentProperties.getInstance().getNumProducts(), productList.size());
         Object[][] res = new Object[size][1];

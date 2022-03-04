@@ -1,6 +1,7 @@
 package ecommerce.pages;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -24,7 +25,7 @@ public class LoginPage extends AutomationExercisePage {
     private static final String LOGIN_PASSWORD = "form[action='/login'] input[name='password']";
     private static final String LOGIN_BUTTON = "form[action='/login'] button";
 
-    private static final Logger LOGGER = Logger.getLogger(LoginPage.class);
+    private static final Logger LOGGER = LogManager.getLogger(LoginPage.class);
 
     public LoginPage(WebDriver driver) {
         super(driver);

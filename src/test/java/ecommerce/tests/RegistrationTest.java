@@ -8,7 +8,8 @@ import ecommerce.scenarios.registration.RegistrationCase;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.LoginPage;
 import ecommerce.pages.SignupPage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -20,7 +21,7 @@ import static org.testng.AssertJUnit.fail;
 
 public class RegistrationTest extends BaseTest {
 
-    private static final Logger LOGGER = Logger.getLogger(RegistrationTest.class);
+    private static final Logger LOGGER = LogManager.getLogger(RegistrationTest.class);
 
     @Test(dataProvider = "registrationData",
             groups = {TestGroups.REGISTRATION, TestGroups.FRONTEND})

@@ -1,7 +1,8 @@
 package ecommerce.scenarios.registration;
 
 import ecommerce.base.EnvironmentProperties;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class AccountExcelReader {
 
-    private static final Logger LOGGER = Logger.getLogger(AccountExcelReader.class);
+    private static final Logger LOGGER = LogManager.getLogger(AccountExcelReader.class);
     public static final DataFormatter DATE_FORMATTER = new DataFormatter();
 
     public static AccountSpreadsheet getSpreadsheet() {
