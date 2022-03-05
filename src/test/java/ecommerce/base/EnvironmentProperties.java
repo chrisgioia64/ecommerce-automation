@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Properties;
 
 public class EnvironmentProperties {
@@ -53,6 +52,10 @@ public class EnvironmentProperties {
     public static final String KEY_CROSS_BROWSER = "cross_browser";
 
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
+
+    static {
+    }
+
     private Properties prop;
     private final static EnvironmentProperties INSTANCE = new EnvironmentProperties();
 
@@ -79,7 +82,8 @@ public class EnvironmentProperties {
     public String getRegistrationExcelFileLocation() {
         String location = getProperty(KEY_REGISTRATION_FILE);
         if (location == null) {
-            LOGGER.error("No file specified for registration excel spreadsheet " +
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "No file specified for registration excel spreadsheet " +
                     "inside environment file");
         }
         return RESOURCES_FOLDER + "//" + location;
@@ -94,10 +98,12 @@ public class EnvironmentProperties {
             }
         }
         if (result == null) {
-            LOGGER.error("The browser type specified in " +
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "The browser type specified in " +
                     "the properties file \"" + browser + "\" has no corresponding browser type");
         } else {
-            LOGGER.info("The browser type specified is: " + browser);
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "The browser type specified is: " + browser);
         }
         return result;
     }
@@ -105,7 +111,8 @@ public class EnvironmentProperties {
     public String getUrl() {
         String urlValue = getProperty(KEY_URL);
         if (urlValue == null) {
-            LOGGER.error("There is no url value specified in the properties file");
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "There is no url value specified in the properties file");
         }
         return urlValue;
     }
@@ -113,9 +120,11 @@ public class EnvironmentProperties {
     public String getEmailSuffix() {
         String emailSuffix = getProperty(KEY_REGISTRATION_EMAIL_SUFFIX);
         if (emailSuffix == null) {
-            LOGGER.error("There is no email suffix value specified in the properties file");
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "There is no email suffix value specified in the properties file");
         } else {
-            LOGGER.info("The email suffix value is " + emailSuffix);
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "The email suffix value is " + emailSuffix);
         }
         return emailSuffix;
     }
@@ -123,15 +132,18 @@ public class EnvironmentProperties {
     public int getNumProducts() {
         String numProducts = getProperty(KEY_NUM_PRODUCTS);
         if (numProducts == null) {
-            LOGGER.error("There is no numProducts property specified");
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "There is no numProducts property specified");
             return 0;
         }
         try {
             int result = Integer.parseInt(numProducts);
-            LOGGER.info("The numProducts property is set to " + result);
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "The numProducts property is set to " + result);
             return result;
         } catch (NumberFormatException e) {
-            LOGGER.error("The numProducts property is not an integer");
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "The numProducts property is not an integer");
         }
         return 0;
     }
@@ -139,15 +151,18 @@ public class EnvironmentProperties {
     public int getCucumberWait() {
         String cucumberWaitString = getProperty(KEY_STEP_WAIT);
         if (cucumberWaitString == null) {
-            LOGGER.warn("No step wait specified in properties file");
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "No step wait specified in properties file");
             return 0;
         }
         try {
             int seconds = Integer.parseInt(cucumberWaitString);
-            LOGGER.info("Cucumber step wait specified in seconds as " + seconds);
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "Cucumber step wait specified in seconds as " + seconds);
             return seconds;
         } catch (NumberFormatException e) {
-            LOGGER.warn("invalid step wait specified: \"" + cucumberWaitString + "\"");
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "invalid step wait specified: \"" + cucumberWaitString + "\"");
         }
         return 0;
     }
@@ -155,7 +170,8 @@ public class EnvironmentProperties {
     public boolean isCrossBrowserTesting() {
         String flag = getProperty(KEY_CROSS_BROWSER);
         if (flag == null) {
-            LOGGER.warn("No cross_browser flag specified. Defaulting to false");
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "No cross_browser flag specified. Defaulting to false");
             return false;
         }
         if (flag.equalsIgnoreCase("true")) {
@@ -163,7 +179,8 @@ public class EnvironmentProperties {
         } else if (flag.equalsIgnoreCase("false")) {
             return false;
         } else {
-            LOGGER.warn("The cross_browser flag must be either true or false. Defaulting to false");
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "The cross_browser flag must be either true or false. Defaulting to false");
             return false;
         }
     }

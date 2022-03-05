@@ -1,5 +1,6 @@
 package ecommerce.pages;
 
+import ecommerce.base.MyMarkers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -47,8 +48,8 @@ public class LoginPage extends AutomationExercisePage {
         sendKeys(REGISTER_NAME, username);
         sendKeys(REGISTER_EMAIL, email);
         click(REGISTER_BUTTON);
-        LOGGER.info("Enter into registration, name = \"" + username + "\" " +
-                " and email = \"" + email + "\"");
+        LOGGER.info(MyMarkers.PAGE_OBJECTS,
+                "Enter into registration form, name = '{}' and email = '{}", username, email);
         return elementExists(SignupPage.NAME_FIELD);
     }
 
@@ -62,8 +63,8 @@ public class LoginPage extends AutomationExercisePage {
         sendKeys(LOGIN_EMAIL, email);
         sendKeys(LOGIN_PASSWORD, password);
         click(LOGIN_BUTTON);
-        LOGGER.info("Enter into login, email = \"" + email + "\" " +
-                " and password \"" + password + "\"");
+        LOGGER.info(MyMarkers.PAGE_OBJECTS,
+                "Enter into login form, email = '{}' and password = '{}'", email, password);
         return linkExists(AutomationExercisePage.LOGOUT_LINK);
     }
 }

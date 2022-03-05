@@ -29,8 +29,6 @@ public class CartPage extends AutomationExercisePage {
     public static final String MODAL_POPUP_SELECTOR = "#checkoutModal";
     public static final String LOGIN_LINK_TEXT = "Register / Login";
 
-    private static final Logger LOGGER = LogManager.getLogger(CartPage.class);
-
     public CartPage(WebDriver driver) {
         super(driver);
     }

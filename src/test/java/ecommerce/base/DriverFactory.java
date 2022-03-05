@@ -9,7 +9,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 
 public class DriverFactory {
@@ -59,13 +58,17 @@ public class DriverFactory {
      */
     public WebDriver getDriver(BrowserType type) {
         if (threadLocal.get() == null) {
-            LOGGER.info("No prior browsermap for thread " + Thread.currentThread().getId());
             BrowserMap map = new BrowserMap();
             threadLocal.set(map);
             if (type == null) {
-                LOGGER.info("Using default browser Chrome for creating a web driver");
+                LOGGER.info(MyMarkers.DRIVER,
+                        "For thread id {}, using default browser Chrome for creating a web driver",
+                        Thread.currentThread().getId());
                 map.map.put(BrowserType.CHROME, new ChromeDriver());
             } else {
+                LOGGER.info(MyMarkers.DRIVER,
+                        "thread id {} does not contain the browser type {}",
+                        Thread.currentThread().getId(), type.toString());
                 switch (type) {
                     case CHROME -> map.map.put(BrowserType.CHROME, new ChromeDriver());
                     case FIREFOX -> map.map.put(BrowserType.FIREFOX, new FirefoxDriver());
@@ -77,8 +80,9 @@ public class DriverFactory {
         } else {
             BrowserMap map = threadLocal.get();
             if (!map.map.containsKey(type)) {
-                LOGGER.info("browsermap exists but not for browser type " + type + " for thread id "
-                        + Thread.currentThread().getId());
+                LOGGER.info(MyMarkers.DRIVER,
+                        "thread id {} does not contain the browser type {}",
+                        Thread.currentThread().getId(), type.toString());
                 switch (type) {
                     case CHROME -> map.map.put(BrowserType.CHROME, new ChromeDriver());
                     case FIREFOX -> map.map.put(BrowserType.FIREFOX, new FirefoxDriver());
