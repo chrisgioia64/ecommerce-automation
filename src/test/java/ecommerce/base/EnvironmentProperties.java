@@ -53,9 +53,6 @@ public class EnvironmentProperties {
 
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
 
-    static {
-    }
-
     private Properties prop;
     private final static EnvironmentProperties INSTANCE = new EnvironmentProperties();
 

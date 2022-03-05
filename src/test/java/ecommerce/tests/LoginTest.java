@@ -50,7 +50,7 @@ public class LoginTest extends BaseTest {
      *                 email, password, and is login successful
      */
     @Test(dataProvider = "loginTestCases",
-            dependsOnGroups = {},
+            dependsOnGroups = {TestGroups.REGISTRATION},
             groups = {TestGroups.LOGIN, TestGroups.FRONTEND}
             )
     public void UITest(LoginCase testCase) {
