@@ -1,6 +1,8 @@
 package ecommerce.base;
 
 import io.restassured.RestAssured;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -15,8 +17,11 @@ public class BaseTest {
 
     private final static List<WebDriver> driverPool = new ArrayList<>();
 
+    private static final Logger LOGGER = LogManager.getLogger(BaseTest.class);
+
     @BeforeSuite
     public void setupSuite() {
+        LOGGER.info(MyMarkers.TEST, "Setup suite");
         RestAssured.baseURI = EnvironmentProperties.getInstance().getUrl();
     }
 
@@ -40,7 +45,9 @@ public class BaseTest {
 
     @AfterSuite
     public void tearDownSuite() {
+        LOGGER.info(MyMarkers.TEST, "Beginning tear down of TestNG suite");
         driverPool.forEach(WebDriver::quit);
+        LOGGER.info(MyMarkers.TEST, "Finishing tear down of TestNG suite");
     }
 
 }

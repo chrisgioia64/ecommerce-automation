@@ -1,5 +1,6 @@
 package ecommerce.pages;
 
+import ecommerce.base.MyMarkers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -33,8 +34,9 @@ public abstract class PageObject {
         try {
             select.selectByValue(value);
         } catch (NoSuchElementException ex) {
-            LOGGER.info("The select element \"" + elementName + "\" does not have option " +
-                    "with value \"" + value + "\"");
+            LOGGER.info(MyMarkers.PAGE_OBJECTS,
+                    "In {}, the select element '{}' does not have option with value '{}'",
+                    this.getClass().getName(), elementName, value);
         }
     }
 

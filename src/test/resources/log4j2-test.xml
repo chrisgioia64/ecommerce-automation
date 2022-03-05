@@ -17,8 +17,21 @@
         <File name="html" fileName="${htmlFile}" append="false">
             <HTMLLayout />
         </File>
+        <File name="pagesLog" fileName="log/pages.html" append="false">
+            <HTMLLayout />
+        </File>
+        <File name="apiLog" fileName="log/apiLog.html" append="false">
+            <MarkerFilter marker="API" onMatch="ACCEPT" onMismatch="DENY"/>
+            <HTMLLayout />
+        </File>
     </Appenders>
     <Loggers>
+        <Logger name="ecommerce.pages">
+            <AppenderRef ref="pagesLog" />
+        </Logger>
+        <Logger name="ecommerce">
+            <AppenderRef ref="apiLog" />
+        </Logger>
         <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File" />
