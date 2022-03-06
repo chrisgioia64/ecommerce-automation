@@ -51,10 +51,16 @@ public class EnvironmentProperties {
      */
     public static final String KEY_CROSS_BROWSER = "cross_browser";
 
+    public static final String SAUCE_USERNAME = "sauce_username";
+
+    public static final String SAUCE_ACCESS_KEY = "sauce_accessKey";
+
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
 
     private Properties prop;
     private final static EnvironmentProperties INSTANCE = new EnvironmentProperties();
+
+    private Properties sauceProperties;
 
     private EnvironmentProperties() {
         initializeProperties();
@@ -69,7 +75,7 @@ public class EnvironmentProperties {
         }
     }
 
-    private String getProperty(String key) {
+    public String getProperty(String key) {
         if (prop.get(key) == null) {
             return null;
         }
