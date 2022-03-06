@@ -35,7 +35,7 @@ public class SauceLabsDriver {
     public void test() {
         driver.get("http://www.automationexercise.com");
         System.out.println(driver.getTitle());
-        assertEquals(driver.getTitle(), "Automation Exercise -foo");
+        assertEquals(driver.getTitle(), "Automation Exercise");
     }
 
 }

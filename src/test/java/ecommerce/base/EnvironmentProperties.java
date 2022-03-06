@@ -10,8 +10,8 @@ import java.util.Properties;
 
 public class EnvironmentProperties {
 
-    public static final String ENV_FILE = "src//test//resources//env.properties";
-    private static final String RESOURCES_FOLDER = "src//test//resources";
+//    public static final String ENV_FILE = "src//test//resources//dev.properties";
+    private static final String RESOURCES_FOLDER = "src//test//resources//";
 
     /** The default browser to use for testing. */
     public static final String KEY_BROWSER = "browser";
@@ -55,6 +55,12 @@ public class EnvironmentProperties {
 
     public static final String SAUCE_ACCESS_KEY = "sauce_accessKey";
 
+    /**
+     * A boolean flag ("true" or "false") indicating whether we should Saucelabs
+     * and remote web drivers instead of using local drivers
+     */
+    public static final String KEY_USE_SAUCELABS = "use_saucelabs";
+
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
 
     private Properties prop;
@@ -68,11 +74,30 @@ public class EnvironmentProperties {
 
     private void initializeProperties() {
         this.prop = new Properties();
+        String envFile = getEnvironmentFile();
         try {
-            prop.load(new FileInputStream(ENV_FILE));
+            prop.load(new FileInputStream(envFile));
         } catch (IOException e) {
+            LOGGER.error(MyMarkers.ENVIRONMENT_FILE,
+                    "Could not load environment file: " + envFile);
             e.printStackTrace();
         }
+    }
+
+    private final static String ENVIRONMENT_FILE_SYSTEM_PROPERTY = "env_file";
+
+    private final static String DEV_ENV_FILE = "dev.properties";
+
+    public static String getEnvironmentFile() {
+        String envFile = System.getProperty(ENVIRONMENT_FILE_SYSTEM_PROPERTY);
+        if (envFile == null) {
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "No env_file system property specified. Using " + DEV_ENV_FILE);
+            return RESOURCES_FOLDER + DEV_ENV_FILE;
+        }
+        LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                "Using the following environment file {} ", envFile);
+        return RESOURCES_FOLDER + envFile;
     }
 
     public String getProperty(String key) {
@@ -184,6 +209,28 @@ public class EnvironmentProperties {
         } else {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
                     "The cross_browser flag must be either true or false. Defaulting to false");
+            return false;
+        }
+    }
+
+    public boolean isSauceLabs() {
+        String flag = getProperty(KEY_USE_SAUCELABS);
+        if (flag == null) {
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "No use_saucelabs flag specified. Defaulting to false");
+            return false;
+        }
+        if (flag.equalsIgnoreCase("true")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "use_saucelabs flag set to true");
+            return true;
+        } else if (flag.equalsIgnoreCase("false")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "use_saucelabs flag se to false");
+            return false;
+        } else {
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "use_saucelabs flag must be true or false. Defaulting to false");
             return false;
         }
     }
