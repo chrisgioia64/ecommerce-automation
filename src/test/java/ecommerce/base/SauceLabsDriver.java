@@ -1,10 +1,10 @@
 package ecommerce.base;
 
-import org.junit.Before;
-import org.junit.Test;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +15,7 @@ public class SauceLabsDriver {
 
     private WebDriver driver;
 
-    @Before
+    @BeforeMethod
     public void setup() throws MalformedURLException {
         MutableCapabilities sauceOptions = new MutableCapabilities();
         String sauceUser = EnvironmentProperties.getInstance().getProperty(EnvironmentProperties.SAUCE_USERNAME);
