@@ -46,6 +46,7 @@ public class BaseTest {
     @AfterSuite
     public void tearDownSuite() {
         LOGGER.info(MyMarkers.TEST, "Beginning tear down of TestNG suite");
+        LOGGER.info(MyMarkers.TEST, "There are {} webdrivers to close", driverPool.size());
         driverPool.forEach(WebDriver::quit);
         LOGGER.info(MyMarkers.TEST, "Finishing tear down of TestNG suite");
     }

@@ -1,4 +1,6 @@
 
+[![Java CI with Maven](https://github.com/chrisgioia64/ecommerce-automation/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/chrisgioia64/ecommerce-automation/actions/workflows/maven.yml)
+
 ![Module](img/Test%20Dependencies.jpg)
 
 Each module corresponds to a TestNG test runner as specified in the `testng.xml` in the root of the project directory.

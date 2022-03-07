@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite"  data-provider-thread-count="1">
-    <test thread-count="2" name="Test" parallel="methods">
+    <test thread-count="2" name="Test">
         <classes>
 <!--            <class name="ecommerce.tests.RegistrationTest"/>-->
 <!--            <class name="ecommerce.tests.LoginTest"/>-->
             <class name="ecommerce.tests.ProductTest">
                 <parameter name="searchQuery" value="top" />
-                <methods>
-                    <include name="api1" />
-                    <include name="api2" />
-                    <include name="api3" />
-                    <include name="api4" />
-                    <include name="api5" />
-                </methods>
             </class>
-<!--            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>-->
-<!--            <class name="ecommerce.cucumber.cart.CucumberCartTests"/>-->
+            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
+            <class name="ecommerce.cucumber.cart.CucumberCartTests"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
