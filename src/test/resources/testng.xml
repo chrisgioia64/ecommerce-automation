@@ -5,7 +5,7 @@
         <classes>
 <!--            <class name="ecommerce.tests.RegistrationTest"/>-->
 <!--            <class name="ecommerce.tests.LoginTest"/>-->
-            <class name="ecommerce.tests.ProductTest">
+            <class name="ecommerce.tests.APITest">
                 <parameter name="searchQuery" value="top" />
                 <methods>
                     <include name="api1" />
@@ -15,8 +15,8 @@
                     <include name="api5" />
                 </methods>
             </class>
-<!--            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>-->
-<!--            <class name="ecommerce.cucumber.cart.CucumberCartTests"/>-->
+            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
+            <class name="ecommerce.cucumber.cart.CucumberCartTests"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
