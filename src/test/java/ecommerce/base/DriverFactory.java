@@ -32,6 +32,7 @@ public class DriverFactory {
 
     private DriverFactory() {
         this.useRemoteWebDriver = EnvironmentProperties.getInstance().isSauceLabs();
+        this.isMultipleDrivers = EnvironmentProperties.getInstance().isMultipleDrivers();
         initializaLocalProperties();
         initializeSauceProperties();
     }
@@ -39,6 +40,7 @@ public class DriverFactory {
     private Map<BrowserType, MutableCapabilities> capabilityMap;
     private String sauceUrl;
     private boolean useRemoteWebDriver;
+    private boolean isMultipleDrivers;
 
     private void initializeSauceProperties() {
         this.capabilityMap = new HashMap<>();
@@ -138,34 +140,45 @@ public class DriverFactory {
     private final static ThreadLocal<BrowserMap> threadLocal = new ThreadLocal<>() {
     };
 
+    private final static BrowserMap singleThreadMap = new BrowserMap();
+
     /**
      * Each thread gets at most one web driver.
      */
     public WebDriver getDriver(BrowserType type) {
-        if (threadLocal.get() == null) {
-            BrowserMap map = new BrowserMap();
-            threadLocal.set(map);
-            if (type == null) {
-                LOGGER.info(MyMarkers.DRIVER,
-                        "For thread id {}, using default browser Chrome for creating a web driver",
-                        Thread.currentThread().getId());
-                map.map.put(BrowserType.CHROME, createWebdriver(BrowserType.CHROME));
+        if (isMultipleDrivers) {
+            if (threadLocal.get() == null) {
+                BrowserMap map = new BrowserMap();
+                threadLocal.set(map);
+                if (type == null) {
+                    LOGGER.info(MyMarkers.DRIVER,
+                            "For thread id {}, using default browser Chrome for creating a web driver",
+                            Thread.currentThread().getName());
+                    map.map.put(BrowserType.CHROME, createWebdriver(BrowserType.CHROME));
+                } else {
+                    LOGGER.info(MyMarkers.DRIVER,
+                            "thread id {} does not contain the browser type {}",
+                            Thread.currentThread().getName(), type.toString());
+                    map.map.put(type, createWebdriver(type));
+                }
             } else {
-                LOGGER.info(MyMarkers.DRIVER,
-                        "thread id {} does not contain the browser type {}",
-                        Thread.currentThread().getId(), type.toString());
-                map.map.put(type, createWebdriver(type));
+                BrowserMap map = threadLocal.get();
+                if (!map.map.containsKey(type)) {
+                    LOGGER.info(MyMarkers.DRIVER,
+                            "thread id {} does not contain the browser type {}",
+                            Thread.currentThread().getName(), type.toString());
+                    map.map.put(type, createWebdriver(type));
+                }
             }
+            return threadLocal.get().map.get(type);
         } else {
-            BrowserMap map = threadLocal.get();
-            if (!map.map.containsKey(type)) {
-                LOGGER.info(MyMarkers.DRIVER,
-                        "thread id {} does not contain the browser type {}",
-                        Thread.currentThread().getId(), type.toString());
-                map.map.put(type, createWebdriver(type));
+            WebDriver driver = DriverFactory.singleThreadMap.map.get(type);
+            if (driver == null) {
+                driver = createWebdriver(type);
+                singleThreadMap.map.put(type, driver);
             }
+            return driver;
         }
-        return threadLocal.get().map.get(type);
     }
 
 

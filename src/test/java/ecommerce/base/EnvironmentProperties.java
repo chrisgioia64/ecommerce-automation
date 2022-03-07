@@ -61,6 +61,12 @@ public class EnvironmentProperties {
      */
     public static final String KEY_USE_SAUCELABS = "use_saucelabs";
 
+    /**
+     * A boolean flag ("true" or "false") indicating whether we should
+     * use multiple drivers
+     */
+    public static final String KEY_MULTIPLE_DRIVERS = "multiple_drivers";
+
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
 
     private Properties prop;
@@ -231,6 +237,28 @@ public class EnvironmentProperties {
         } else {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
                     "use_saucelabs flag must be true or false. Defaulting to false");
+            return false;
+        }
+    }
+
+    public boolean isMultipleDrivers() {
+        String flag = getProperty(KEY_MULTIPLE_DRIVERS);
+        if (flag == null) {
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "No multiple_drivers flag specified. Defaulting to false");
+            return false;
+        }
+        if (flag.equalsIgnoreCase("true")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "multiple_drivers flag set to true");
+            return true;
+        } else if (flag.equalsIgnoreCase("false")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "multiple_drivers flag set to false");
+            return false;
+        } else {
+            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
+                    "multiple_drivers flag must be true or false. Defaulting to false");
             return false;
         }
     }
