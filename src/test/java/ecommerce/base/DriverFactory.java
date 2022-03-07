@@ -2,11 +2,17 @@ package ecommerce.base;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.AbstractDriverOptions;
+import org.openqa.selenium.remote.Browser;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
@@ -36,31 +42,39 @@ public class DriverFactory {
 
     private void initializeSauceProperties() {
         this.capabilityMap = new HashMap<>();
-        MutableCapabilities chromeCapabilities = createCapabilities();
-        chromeCapabilities.setCapability("browserName", "chrome");
-        chromeCapabilities.setCapability("browserVersion", "98.0");
+        AbstractDriverOptions chromeCapabilities = createCapabilities(BrowserType.CHROME);
         capabilityMap.put(BrowserType.CHROME, chromeCapabilities);
-        MutableCapabilities firefoxCapabilities = createCapabilities();
-        firefoxCapabilities.setCapability("browserName", "firefox");
-        firefoxCapabilities.setCapability("browserVersion", "96.0");
+
+        AbstractDriverOptions firefoxCapabilities = createCapabilities(BrowserType.FIREFOX);
         capabilityMap.put(BrowserType.FIREFOX, firefoxCapabilities);
-        MutableCapabilities edgeCapabilities = createCapabilities();
-        edgeCapabilities.setCapability("browserName", "edge");
-        edgeCapabilities.setCapability("browserVersion", "99.0");
+
+        AbstractDriverOptions edgeCapabilities = createCapabilities(BrowserType.EDGE);
         capabilityMap.put(BrowserType.EDGE, edgeCapabilities);
         String sauceUrl = String.format(" https://ondemand.us-west-1.saucelabs.com/wd/hub");
         this.sauceUrl = sauceUrl;
     }
 
-    private MutableCapabilities createCapabilities() {
-        MutableCapabilities sauceOptions = new MutableCapabilities();
+    private AbstractDriverOptions createOptions(BrowserType type) {
+        return switch (type) {
+            case CHROME -> new ChromeOptions();
+            case FIREFOX -> new FirefoxOptions();
+            case EDGE -> new EdgeOptions();
+            default -> {
+                throw new IllegalArgumentException("browser type specified is unrecognized: " + type);
+            }
+        };
+    }
+
+    private AbstractDriverOptions createCapabilities(BrowserType type) {
+        AbstractDriverOptions sauceOptions = createOptions(type);
         String sauceUser = EnvironmentProperties.getInstance().getProperty(EnvironmentProperties.SAUCE_USERNAME);
         String sauceKey = EnvironmentProperties.getInstance().getProperty(EnvironmentProperties.SAUCE_ACCESS_KEY);
         sauceOptions.setCapability("username", sauceUser);
         sauceOptions.setCapability("accessKey", sauceKey);
-        MutableCapabilities capabilities = new MutableCapabilities();
+        AbstractDriverOptions capabilities = createOptions(type);
         capabilities.setCapability("platformName", "Windows 10");
         capabilities.setCapability("sauce:options", sauceOptions);
+        capabilities.setBrowserVersion("latest");
         return capabilities;
     }
 
@@ -92,6 +106,7 @@ public class DriverFactory {
     private WebDriver createRemoteWebdriver(BrowserType type) throws MalformedURLException {
         MutableCapabilities capabilities = this.capabilityMap.get(type);
         return new RemoteWebDriver(new URL(sauceUrl), capabilities);
+//        return new RemoteWebDriver(new URL(sauceUrl), new ChromeOptions());
     }
 
     private void initializaLocalProperties() {

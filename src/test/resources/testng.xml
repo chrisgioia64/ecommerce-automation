@@ -5,12 +5,11 @@
         <classes>
 <!--            <class name="ecommerce.tests.RegistrationTest"/>-->
 <!--            <class name="ecommerce.tests.LoginTest"/>-->
-<!--            <class name="ecommerce.tests.ProductTest">-->
-<!--                <parameter name="searchQuery" value="top" />-->
-<!--            </class>-->
-<!--            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>-->
+            <class name="ecommerce.tests.ProductTest">
+                <parameter name="searchQuery" value="top" />
+            </class>
+            <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
             <class name="ecommerce.cucumber.cart.CucumberCartTests"/>
-<!--            <class name="ecommerce.base.SauceLabsDriver" />-->
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
