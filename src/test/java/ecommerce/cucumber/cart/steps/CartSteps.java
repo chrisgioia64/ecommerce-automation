@@ -21,7 +21,7 @@ import static org.testng.AssertJUnit.fail;
 public class CartSteps {
 
     private CartContext context;
-    private int stepWait;
+    private double stepWait;
 
     @Before
     public void setup() {
@@ -37,12 +37,16 @@ public class CartSteps {
 
     @BeforeStep
     public void beforeStep() {
+        sleepMs((int)(stepWait * 1000));
+//        context.implicitWait(stepWait);
+    }
+
+    private void sleepMs(int ms) {
         try {
-            Thread.sleep(stepWait * 1000);
+            Thread.sleep(ms);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        context.implicitWait(stepWait);
     }
 
     @Given("I login with email {string} and password {string}")
@@ -65,7 +69,9 @@ public class CartSteps {
 
     @Given("Add to Cart")
     public void add_to_cart() {
+        sleepMs(500);
         context.clickAddToCart();
+        sleepMs(500);
     }
 
     @Given("I navigate to the cart page")

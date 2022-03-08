@@ -182,7 +182,7 @@ public class EnvironmentProperties {
         return 0;
     }
 
-    public int getCucumberWait() {
+    public double getCucumberWait() {
         String cucumberWaitString = getProperty(KEY_STEP_WAIT);
         if (cucumberWaitString == null) {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
@@ -190,7 +190,7 @@ public class EnvironmentProperties {
             return 0;
         }
         try {
-            int seconds = Integer.parseInt(cucumberWaitString);
+            double seconds = Double.parseDouble(cucumberWaitString);
             LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
                     "Cucumber step wait specified in seconds as " + seconds);
             return seconds;
@@ -198,7 +198,7 @@ public class EnvironmentProperties {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
                     "invalid step wait specified: \"" + cucumberWaitString + "\"");
         }
-        return 0;
+        return 0.0;
     }
 
     public boolean isCrossBrowserTesting() {
