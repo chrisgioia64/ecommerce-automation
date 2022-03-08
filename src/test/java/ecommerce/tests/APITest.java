@@ -9,14 +9,10 @@ import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.ProductDetailsPage;
 import ecommerce.pages.ProductsPage;
 import ecommerce.scenarios.product.ProductInformation;
-import ecommerce.scenarios.product.ProductList;
 import ecommerce.scenarios.product.ProductUtils;
 import io.restassured.response.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apiguardian.api.API;
-import org.hamcrest.Matchers;
-import org.hamcrest.Matchers.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
@@ -29,14 +25,12 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.AssertJUnit.assertEquals;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.*;
 import static org.testng.AssertJUnit.fail;
 
 
-public class ProductTest extends BaseTest {
+public class APITest extends BaseTest {
 
-    private final static Logger LOGGER = LogManager.getLogger(ProductTest.class);
+    private final static Logger LOGGER = LogManager.getLogger(APITest.class);
 
     /**
      * Use API 1 (Get all products) to retrieve information about all products.
@@ -118,7 +112,7 @@ public class ProductTest extends BaseTest {
      * Test API 3 : Get All Brands
      */
     @Test(dataProvider = "getAllBrands",
-        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
+        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.BRAND})
     public void api3(Integer id, String brand, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + id;
@@ -167,7 +161,7 @@ public class ProductTest extends BaseTest {
      * Test API 4 -- Put to All Brands (method unsupported)
      * Test that the response code is 405
      */
-    @Test(groups = {TestGroups.API, TestGroups.PRODUCT})
+    @Test(groups = {TestGroups.API, TestGroups.BRAND})
     public void api4() {
         Response response = APIUtils.putResponseBrandList();
         String jsonResponse = response.asString();
