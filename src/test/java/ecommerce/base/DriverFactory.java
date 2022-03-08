@@ -17,6 +17,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +82,14 @@ public class DriverFactory {
     }
 
     private WebDriver createWebdriver(BrowserType type) {
+        WebDriver driver = createWebdriverHelper(type);
+        if (driver != null) {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        }
+        return driver;
+    }
+
+    private WebDriver createWebdriverHelper(BrowserType type) {
         if (this.useRemoteWebDriver) {
             try {
                 return createRemoteWebdriver(type);
