@@ -112,7 +112,7 @@ public class APITest extends BaseTest {
      * Test API 3 : Get All Brands
      */
     @Test(dataProvider = "getAllBrands",
-        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
+        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.BRAND})
     public void api3(Integer id, String brand, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + id;
@@ -161,7 +161,7 @@ public class APITest extends BaseTest {
      * Test API 4 -- Put to All Brands (method unsupported)
      * Test that the response code is 405
      */
-    @Test(groups = {TestGroups.API, TestGroups.PRODUCT})
+    @Test(groups = {TestGroups.API, TestGroups.BRAND})
     public void api4() {
         Response response = APIUtils.putResponseBrandList();
         String jsonResponse = response.asString();

@@ -8,6 +8,7 @@
             <class name="ecommerce.tests.APITest">
                 <parameter name="searchQuery" value="top" />
             </class>
+            <class name="ecommerce.tests.BrandTest" />
             <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
             <class name="ecommerce.cucumber.cart.CucumberCartTests"/>
         </classes>

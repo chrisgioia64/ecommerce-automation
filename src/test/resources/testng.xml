@@ -15,6 +15,7 @@
                     <include name="api5" />
                 </methods>
             </class>
+            <class name="ecommerce.tests.BrandTest" />
             <class name="ecommerce.cucumber.search.CucumberSearchTests"/>
             <class name="ecommerce.cucumber.cart.CucumberCartTests"/>
         </classes>

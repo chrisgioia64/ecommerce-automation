@@ -92,6 +92,7 @@ public class ProductDetailsPage extends AutomationExercisePage {
         return element.getText();
     }
 
+    /** Returns the brand (e.g. "POLO") as displayed on the page */
     public String parseBrand() {
         String brandText = getBrandText();
         String[] arr = brandText.split(":");
