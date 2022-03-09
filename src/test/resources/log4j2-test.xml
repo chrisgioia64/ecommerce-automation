@@ -20,6 +20,10 @@
         <File name="pagesLog" fileName="log/pages.html" append="false">
             <HTMLLayout />
         </File>
+        <File name="testCaseLog" fileName="log/test_cases.html" append="false">
+            <HTMLLayout />
+        </File>
+
         <File name="apiLog" fileName="log/apiLog.html" append="false">
             <MarkerFilter marker="API" onMatch="ACCEPT" onMismatch="DENY"/>
             <HTMLLayout />
@@ -31,6 +35,9 @@
         </Logger>
         <Logger name="ecommerce">
             <AppenderRef ref="apiLog" />
+        </Logger>
+        <Logger name="ecommerce.reports">
+            <AppenderRef ref="testCaseLog" />
         </Logger>
         <Root level="info">
             <AppenderRef ref="Console"/>
