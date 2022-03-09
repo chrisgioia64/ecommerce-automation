@@ -6,6 +6,8 @@ import io.cucumber.java.Before;
 import io.cucumber.java.BeforeStep;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.asserts.SoftAssert;
 
 import static org.testng.Assert.assertEquals;
@@ -22,6 +24,7 @@ public class CartSteps {
 
     private CartContext context;
     private double stepWait;
+    private final static Logger LOGGER = LogManager.getLogger(CartSteps.class);
 
     @Before
     public void setup() {

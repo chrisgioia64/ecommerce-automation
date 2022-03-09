@@ -1,5 +1,6 @@
 package ecommerce.cucumber.search.steps;
 
+import ecommerce.base.BaseTest;
 import ecommerce.base.BrowserType;
 import ecommerce.base.DriverFactory;
 import ecommerce.base.EnvironmentProperties;
@@ -15,7 +16,7 @@ public class SearchFeatureContext {
     public SearchFeatureContext() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
-        driver = DriverFactory.getInstance().getDriver(type);
+        driver = BaseTest.getDriver(type);
         driver.get(url);
         productPage = new ProductsPage(driver);
     }
