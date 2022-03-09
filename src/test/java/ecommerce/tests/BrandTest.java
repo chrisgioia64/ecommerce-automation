@@ -7,12 +7,16 @@ import ecommerce.base.MyMarkers;
 import ecommerce.pages.BrandProductsPage;
 import ecommerce.pages.ProductDetailsPage;
 import ecommerce.pages.ProductsPage;
+import ecommerce.reports.ExtentTestListener;
 import ecommerce.scenarios.product.ProductInformation;
 import io.cucumber.java.it.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hamcrest.Matchers;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -101,5 +105,21 @@ public class BrandTest extends BaseTest {
         }
         LOGGER.info("Collected {} brands for the data provider", result.length);
         return result;
+    }
+
+    /**
+     * Using dependency injection to insert ITestResult as parameter into @AfterMethod
+     * See: https://testng.org/doc/documentation-main.html#native-dependency-injection
+     *
+     * Sets the status of a SauceLabs test to pass/fail
+     * See: https://wiki.saucelabs.com/pages/viewpage.action?pageId=63472006
+     */
+    @AfterMethod
+    public void tearDown(ITestResult result) {
+        if (EnvironmentProperties.getInstance().isSauceLabs()) {
+            WebDriver driver = ExtentTestListener.getDriver(result);
+            ((JavascriptExecutor) driver).executeScript("sauce:job-result="
+                    + (result.isSuccess() ? "passed" : "failed"));
+        }
     }
 }

@@ -45,7 +45,7 @@ public class ExtentTestListener implements ITestListener {
      * If we pass in the browser type as a parameter to the test method,
      * use that browser type; else use the default browser type
      */
-    private WebDriver getDriver(ITestResult result) {
+    public static WebDriver getDriver(ITestResult result) {
         BrowserType type = null;
         for (Object obj : result.getParameters()) {
             if (obj instanceof BrowserType) {
