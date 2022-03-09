@@ -1,5 +1,6 @@
 package ecommerce.cucumber.cart.steps;
 
+import ecommerce.base.BaseTest;
 import ecommerce.base.BrowserType;
 import ecommerce.base.DriverFactory;
 import ecommerce.base.EnvironmentProperties;
@@ -23,8 +24,9 @@ public class CartContext {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
 
-        driver = DriverFactory.getInstance().getDriver(type);
+        driver = BaseTest.getDriver(type);
         driver.get(url);
+
         loginPage = new LoginPage(driver);
         productPage = new ProductsPage(driver);
         productDetailsPage = new ProductDetailsPage(driver);

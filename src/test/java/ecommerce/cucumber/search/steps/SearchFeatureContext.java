@@ -1,11 +1,13 @@
 package ecommerce.cucumber.search.steps;
 
+import ecommerce.base.BaseTest;
 import ecommerce.base.BrowserType;
 import ecommerce.base.DriverFactory;
 import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.ProductsPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 
 public class SearchFeatureContext {
 
@@ -15,7 +17,7 @@ public class SearchFeatureContext {
     public SearchFeatureContext() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
         String url = EnvironmentProperties.getInstance().getUrl();
-        driver = DriverFactory.getInstance().getDriver(type);
+        driver = BaseTest.getDriver(type);
         driver.get(url);
         productPage = new ProductsPage(driver);
     }

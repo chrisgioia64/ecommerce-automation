@@ -38,7 +38,8 @@ public class APITest extends BaseTest {
      * API matches what’s on the page. (combination of front-end and API testing)
      */
     @Test(dataProvider = "productTestCases",
-            groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
+            groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT},
+            description = "Use API to get all products and then verify with backend")
     public void api1(ProductInformation product, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + product.getId();
@@ -98,7 +99,8 @@ public class APITest extends BaseTest {
      * (unsupported request method)
      * Test that the response code is 405
      */
-    @Test(groups = {TestGroups.API, TestGroups.PRODUCT})
+    @Test(groups = {TestGroups.API, TestGroups.PRODUCT},
+        description = "Verify that POST to all Products is an unsupported operation")
     public void api2() {
         Response response = APIUtils.postResponseProductList();
         String jsonResponse = response.asString();
@@ -112,7 +114,9 @@ public class APITest extends BaseTest {
      * Test API 3 : Get All Brands
      */
     @Test(dataProvider = "getAllBrands",
-        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.BRAND})
+        groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.BRAND},
+        description = "API to backend test. Retrieve all brands from API and then verify " +
+                "product details page contains the correct brand")
     public void api3(Integer id, String brand, BrowserType browserType) {
         String url = EnvironmentProperties.getInstance().getUrl() + "/"
                 + ProductDetailsPage.PAGE_URL + "/" + id;
@@ -161,7 +165,8 @@ public class APITest extends BaseTest {
      * Test API 4 -- Put to All Brands (method unsupported)
      * Test that the response code is 405
      */
-    @Test(groups = {TestGroups.API, TestGroups.BRAND})
+    @Test(groups = {TestGroups.API, TestGroups.BRAND},
+        description = "Verify that PUT to all Brands is unsupported")
     public void api4() {
         Response response = APIUtils.putResponseBrandList();
         String jsonResponse = response.asString();
@@ -177,7 +182,8 @@ public class APITest extends BaseTest {
      * @param searchQuery the product to search for (e.g. "top")
      */
     @Parameters({"searchQuery"})
-    @Test(groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT})
+    @Test(groups = {TestGroups.API, TestGroups.FRONTEND, TestGroups.PRODUCT},
+        description="Verify that the front-end and backend match for search.")
     public void api5(String searchQuery) {
         // Backend call
         Response r = APIUtils.postSearchProduct(searchQuery);

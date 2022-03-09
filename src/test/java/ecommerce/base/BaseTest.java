@@ -1,10 +1,13 @@
 package ecommerce.base;
 
+import com.aventstack.extentreports.ExtentTest;
+import ecommerce.reports.ExtentManager;
 import io.restassured.RestAssured;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 
 import java.time.Duration;
@@ -25,6 +28,7 @@ public class BaseTest {
         LOGGER.info(MyMarkers.TEST, "Setup suite");
         RestAssured.baseURI = EnvironmentProperties.getInstance().getUrl();
     }
+
 
     public static WebDriver getDriver() {
         BrowserType type = EnvironmentProperties.getInstance().getBrowserType();
