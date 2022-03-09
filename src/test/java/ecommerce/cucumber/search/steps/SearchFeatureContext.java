@@ -7,6 +7,7 @@ import ecommerce.base.EnvironmentProperties;
 import ecommerce.pages.HomePage;
 import ecommerce.pages.ProductsPage;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
 
 public class SearchFeatureContext {
 

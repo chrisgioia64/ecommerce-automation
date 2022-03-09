@@ -28,6 +28,11 @@
             <MarkerFilter marker="API" onMatch="ACCEPT" onMismatch="DENY"/>
             <HTMLLayout />
         </File>
+
+        <File name="screenshotLog" fileName="log/screenshots.html" append="false">
+            <HTMLLayout />
+        </File>
+
     </Appenders>
     <Loggers>
         <Logger name="ecommerce.pages">
@@ -39,6 +44,10 @@
         <Logger name="ecommerce.reports">
             <AppenderRef ref="testCaseLog" />
         </Logger>
+        <Logger name="ecommerce.reports.screenshot">
+            <AppenderRef ref="screenshotLog" />
+        </Logger>
+
         <Root level="info">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="File" />

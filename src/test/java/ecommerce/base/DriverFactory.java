@@ -154,7 +154,7 @@ public class DriverFactory {
     /**
      * Each thread gets at most one web driver.
      */
-    public WebDriver getDriver(BrowserType type) {
+    public synchronized WebDriver getDriver(BrowserType type) {
         if (isMultipleDrivers) {
             if (threadLocal.get() == null) {
                 BrowserMap map = new BrowserMap();
@@ -181,12 +181,13 @@ public class DriverFactory {
             }
             return threadLocal.get().map.get(type);
         } else {
-            WebDriver driver = DriverFactory.singleThreadMap.map.get(type);
-            if (driver == null) {
-                driver = createWebdriver(type);
-                singleThreadMap.map.put(type, driver);
-            }
-            return driver;
+                WebDriver driver = DriverFactory.singleThreadMap.map.get(type);
+                if (driver == null) {
+                    driver = createWebdriver(type);
+                    singleThreadMap.map.put(type, driver);
+                }
+                return driver;
+
         }
     }
 
