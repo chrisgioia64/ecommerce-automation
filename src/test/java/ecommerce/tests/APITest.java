@@ -221,4 +221,18 @@ public class APITest extends BaseTest {
         }
     }
 
-}
+    @Test(groups = {TestGroups.API, TestGroups.PRODUCT},
+            description="Verify 400 status code for POST to Search Product without search parameter.")
+    public void api6() {
+        // Backend call
+        Response r = APIUtils.postSearchProduct();
+        String jsonResponse = r.asString();
+        JSONObject obj = new JSONObject(jsonResponse);
+        String message = obj.getString("message");
+        Integer statusCode = obj.getInt("responseCode");
+        assertEquals(400, statusCode, 1e-1);
+        assertEquals("Bad request, search_product parameter is missing in POST request.",
+                message);
+    }
+
+    }

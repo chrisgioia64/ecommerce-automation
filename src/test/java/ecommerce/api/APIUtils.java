@@ -99,6 +99,20 @@ public class APIUtils {
                 .extract().response();
     }
 
+    /**
+     * API 6 -- POST to Search Product with no search query
+     */
+    public static Response postSearchProduct() {
+        LOGGER.info(MyMarkers.API_CALLS,
+                "Calling API 6 -- POST all products with no product name");
+        return given().relaxedHTTPSValidation()
+                .contentType(ContentType.URLENC)
+                .when()
+                .post("api/searchProduct")
+                .then()
+                .extract().response();
+    }
+
     public static <T> T extractJson(Response response, JsonExtractor<T> extractor)
             throws EcommerceApiException {
         if (response.getStatusCode() != 200) {
