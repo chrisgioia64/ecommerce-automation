@@ -22,7 +22,7 @@ public abstract class PageObject {
 
     private static final Logger LOGGER = LogManager.getLogger(PageObject.class);
 
-    private WebDriverWait wait;
+    private final WebDriverWait wait;
 
     public PageObject(WebDriver driver) {
         this.driver = driver;
@@ -64,6 +64,15 @@ public abstract class PageObject {
     protected boolean elementExists(String cssSelector) {
         try {
             driver.findElement(By.cssSelector(cssSelector));
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    protected boolean elementExistsLinkText(String linkText) {
+        try {
+            driver.findElement(By.linkText(linkText));
             return true;
         } catch (NoSuchElementException ex) {
             return false;

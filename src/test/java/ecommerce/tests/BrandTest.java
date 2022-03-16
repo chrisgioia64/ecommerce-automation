@@ -20,6 +20,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -107,19 +108,35 @@ public class BrandTest extends BaseTest {
         return result;
     }
 
+
     /**
-     * Using dependency injection to insert ITestResult as parameter into @AfterMethod
-     * See: https://testng.org/doc/documentation-main.html#native-dependency-injection
-     *
-     * Sets the status of a SauceLabs test to pass/fail
-     * See: https://wiki.saucelabs.com/pages/viewpage.action?pageId=63472006
+     * Verify that this non-existent brand has no products associated with it
      */
-    @AfterMethod
-    public void tearDown(ITestResult result) {
-        if (EnvironmentProperties.getInstance().isSauceLabs()) {
-            WebDriver driver = ExtentTestListener.getDriver(result);
-            ((JavascriptExecutor) driver).executeScript("sauce:job-result="
-                    + (result.isSuccess() ? "passed" : "failed"));
-        }
+    @Test(dataProvider = "non-brands",
+            groups = {TestGroups.FRONTEND, TestGroups.BRAND})
+    public void verifyNonexistentBrand(String brandName) {
+        WebDriver driver = getDriver();
+        String url = EnvironmentProperties.getInstance().getUrl() + "/"
+                + BrandProductsPage.PAGE_URL + "/" + brandName;
+        driver.get(url);
+        BrandProductsPage page = new BrandProductsPage(driver);
+
+        LOGGER.info(MyMarkers.TEST,
+                "Verifying that brand {} has {} products", brandName, 0);
+        assertEquals(0, page.getProductNames().size());
     }
+
+    @DataProvider(name="non-brands")
+    public Object[][] getNonExistentBrands() {
+        List<String> list = Arrays.asList("Nike", "polo");
+        int index = 0;
+        Object[][] result = new Object[list.size()][1];
+        for (String brand : list) {
+            result[index][0] = brand;
+            index++;
+        }
+        LOGGER.info("Collected {} non-existent brands for the data provider", result.length);
+        return result;
+    }
+
 }

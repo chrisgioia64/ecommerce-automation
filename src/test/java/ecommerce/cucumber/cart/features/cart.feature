@@ -55,6 +55,20 @@ Feature: Cart
     And Enter in dummy credit card
     Then Verify Order has been placed
 
+  Scenario: Negative Scenario -- Try to go to checkout when nothing in cart
+    Given I login with email "tomsawyer@gmail.com" and password "abcd123"
+    And I navigate to the cart page
+    Then Verify checkout button does not exist
+
+  Scenario: Negative Scenario -- Set quantity to 0 and try to checkout
+    Given I login with email "tomsawyer@gmail.com" and password "abcd123"
+    And Search for "Blue Top" on the products page
+    And View Product Details for "Blue Top"
+    And Set quantity to 0
+    And Add to Cart
+    And I navigate to the cart page
+    Then Verify checkout button does not exist
+
   Scenario Outline: Add two items to cart and checkout
     Given I login with email "tomsawyer@gmail.com" and password "abcd123"
     When Search for "<item1>" on the products page
