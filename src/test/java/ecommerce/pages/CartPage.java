@@ -43,11 +43,15 @@ public class CartPage extends AutomationExercisePage {
         element.click();
     }
 
+    public boolean checkoutButtonExists() {
+        return elementExistsLinkText(CHECKOUT_BUTTON_LINK_TEXT);
+    }
+
     /**
      * Clear all items in the cart
      */
     public void clearCart() {
-        driver.findElements(By.cssSelector(ROWS_SELECTOR)).stream().forEach(CartPage::deleteRow);
+        driver.findElements(By.cssSelector(ROWS_SELECTOR)).forEach(CartPage::deleteRow);
     }
 
     /**

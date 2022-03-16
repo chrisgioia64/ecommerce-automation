@@ -12,6 +12,7 @@ import org.testng.asserts.SoftAssert;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.fail;
 
 /**
@@ -113,6 +114,12 @@ public class CartSteps {
     @Given("Proceed to Checkout")
     public void proceed_to_checkout() {
         context.clickCheckoutButton();
+    }
+
+    @Given("Verify checkout button does not exist")
+    public void verify_checkout_button_does_not_exist() {
+        assertFalse("Checkout button exists when it should not",
+                context.checkoutButtonExists());
     }
 
     @Given("^Verify total amount is Rs. (\\d+)$")

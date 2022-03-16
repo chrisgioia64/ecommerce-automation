@@ -93,6 +93,10 @@ public class CartContext {
         cartPage.clickCheckoutButton();
     }
 
+    public boolean checkoutButtonExists() {
+        return cartPage.checkoutButtonExists();
+    }
+
     public int getTotalPrice() {
         return checkoutPage.getTotalPrice();
     }
