@@ -51,9 +51,15 @@ public class ProductsPage extends AutomationExercisePage {
         click(SEARCH_BUTTON);
     }
 
+    /**
+     * A data type for brand information that is used by a data provider
+     */
     public static class BrandInfo {
+        /** The text description of the brand (e.g. "Polo") */
         public String brandName;
+        /** The full url of the page that list all products for the brand. */
         public String brandUrl;
+        /** The number of products that contains this brand. */
         public int count;
 
         public BrandInfo(String brandName, String brandUrl, int count) {
@@ -64,7 +70,7 @@ public class ProductsPage extends AutomationExercisePage {
     }
 
     /**
-     * Parses the brand information on the left sidebar
+     * Returns the brand information for each brand listed on the left sidebar
      */
     public List<BrandInfo> getBrandInfo() {
         WebElement element = driver.findElement(By.cssSelector(BRANDS_DIV));

@@ -84,6 +84,10 @@ public abstract class AutomationExercisePage extends PageObject {
         return EnvironmentProperties.getInstance().getUrl() + "/" + subUrl;
     }
 
+    /**
+     * Navigate the webdriver to the suburl given
+     * @param subUrl the portion of the url that comes after the domain name
+     */
     protected void navigateToSuburl(String subUrl) {
         String fullUrl = getFullUrl(subUrl);
         driver.get(fullUrl);

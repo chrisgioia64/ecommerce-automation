@@ -61,22 +61,21 @@ public abstract class PageObject {
         element.click();
     }
 
-    protected boolean elementExists(String cssSelector) {
+    private boolean elementExists(By by) {
         try {
-            driver.findElement(By.cssSelector(cssSelector));
+            driver.findElement(by);
             return true;
         } catch (NoSuchElementException ex) {
             return false;
         }
     }
 
+    protected boolean elementExists(String cssSelector) {
+        return elementExists(By.cssSelector(cssSelector));
+    }
+
     protected boolean elementExistsLinkText(String linkText) {
-        try {
-            driver.findElement(By.linkText(linkText));
-            return true;
-        } catch (NoSuchElementException ex) {
-            return false;
-        }
+        return elementExists(By.linkText(linkText));
     }
 
     protected boolean linkExists(String linkText) {
