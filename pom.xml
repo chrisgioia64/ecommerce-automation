@@ -19,6 +19,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.12.4</version>
                         <configuration>
+                            <systemPropertyVariables>
+                                <env_file>dev.properties</env_file>
+                            </systemPropertyVariables>
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                             </suiteXmlFiles>
@@ -37,6 +40,9 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>2.12.4</version>
                         <configuration>
+                            <systemPropertyVariables>
+                                <env_file>qa.properties</env_file>
+                            </systemPropertyVariables>
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/testng_qa.xml</suiteXmlFile>
                             </suiteXmlFiles>
