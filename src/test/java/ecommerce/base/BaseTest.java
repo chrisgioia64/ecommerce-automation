@@ -45,7 +45,7 @@ public class BaseTest {
         return getDriver(browserType, url);
     }
 
-    public static WebDriver getDriver(BrowserType browserType, String url) {
+    private static WebDriver getDriver(BrowserType browserType, String url) {
         WebDriver driver = DriverFactory.getInstance().getDriver(browserType);
         driver.get(url);
         driverPool.add(driver);

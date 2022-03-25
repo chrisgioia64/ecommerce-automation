@@ -11,9 +11,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.AbstractDriverOptions;
-import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.*;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -115,9 +113,20 @@ public class DriverFactory {
     }
 
     private WebDriver createRemoteWebdriver(BrowserType type) throws MalformedURLException {
-        MutableCapabilities capabilities = this.capabilityMap.get(type);
-        return new RemoteWebDriver(new URL(sauceUrl), capabilities);
-//        return new RemoteWebDriver(new URL(sauceUrl), new ChromeOptions());
+        if (EnvironmentProperties.getInstance().isSauceLabsReadFromSystem()) {
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setBrowserName(System.getenv("SELENIUM_BROWSER"));
+            capabilities.setVersion(System.getenv("SELENIUM_VERSION"));
+            capabilities.setCapability(CapabilityType.PLATFORM, System.getenv("SELENIUM_PLATFORM"));
+            capabilities.setCapability("username", System.getenv("SAUCE_USERNAME"));
+            capabilities.setCapability("accessKey", System.getenv("SAUCE_ACCESS_KEY"));
+            capabilities.setCapability("name", "Ecommerce test");
+
+            return new RemoteWebDriver(new URL(sauceUrl), capabilities);
+        } else {
+            MutableCapabilities capabilities = this.capabilityMap.get(type);
+            return new RemoteWebDriver(new URL(sauceUrl), capabilities);
+        }
     }
 
     private void initializaLocalProperties() {

@@ -67,6 +67,13 @@ public class EnvironmentProperties {
      */
     public static final String KEY_MULTIPLE_DRIVERS = "multiple_drivers";
 
+    /**
+     * A boolean flag ("true" or "false") indicating whether we should
+     * read the browser configuration from sauce labs properties.
+     * Only relevant when when "use_saucelabs" is true
+     */
+    public static final String KEY_USE_SAUCLABS_PROPERTIES = "use_saucelabs_properties";
+
     private static final Logger LOGGER = LogManager.getLogger(EnvironmentProperties.class);
 
     private Properties prop;
@@ -201,66 +208,44 @@ public class EnvironmentProperties {
         return 0.0;
     }
 
-    public boolean isCrossBrowserTesting() {
-        String flag = getProperty(KEY_CROSS_BROWSER);
+    private boolean getBooleanFlag(String key) {
+        String flag = getProperty(key);
         if (flag == null) {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "No cross_browser flag specified. Defaulting to false");
+                    "No {} flag specified. Defaulting to false", key);
             return false;
         }
         if (flag.equalsIgnoreCase("true")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "{} flag set to true", key);
             return true;
         } else if (flag.equalsIgnoreCase("false")) {
+            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
+                    "{} flag set to false", key);
             return false;
         } else {
             LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "The cross_browser flag must be either true or false. Defaulting to false");
+                    "{} flag must be true or false. Defaulting to false",
+                    key);
             return false;
         }
+    }
+
+
+    public boolean isCrossBrowserTesting() {
+        return getBooleanFlag(KEY_CROSS_BROWSER);
     }
 
     public boolean isSauceLabs() {
-        String flag = getProperty(KEY_USE_SAUCELABS);
-        if (flag == null) {
-            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "No use_saucelabs flag specified. Defaulting to false");
-            return false;
-        }
-        if (flag.equalsIgnoreCase("true")) {
-            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
-                    "use_saucelabs flag set to true");
-            return true;
-        } else if (flag.equalsIgnoreCase("false")) {
-            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
-                    "use_saucelabs flag se to false");
-            return false;
-        } else {
-            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "use_saucelabs flag must be true or false. Defaulting to false");
-            return false;
-        }
+        return getBooleanFlag(KEY_USE_SAUCELABS);
     }
 
     public boolean isMultipleDrivers() {
-        String flag = getProperty(KEY_MULTIPLE_DRIVERS);
-        if (flag == null) {
-            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "No multiple_drivers flag specified. Defaulting to false");
-            return false;
-        }
-        if (flag.equalsIgnoreCase("true")) {
-            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
-                    "multiple_drivers flag set to true");
-            return true;
-        } else if (flag.equalsIgnoreCase("false")) {
-            LOGGER.info(MyMarkers.ENVIRONMENT_FILE,
-                    "multiple_drivers flag set to false");
-            return false;
-        } else {
-            LOGGER.warn(MyMarkers.ENVIRONMENT_FILE,
-                    "multiple_drivers flag must be true or false. Defaulting to false");
-            return false;
-        }
+        return getBooleanFlag(KEY_MULTIPLE_DRIVERS);
+    }
+
+    public boolean isSauceLabsReadFromSystem() {
+        return getBooleanFlag(KEY_USE_SAUCLABS_PROPERTIES);
     }
 
     public static EnvironmentProperties getInstance() {
