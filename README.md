@@ -1,3 +1,4 @@
+### Modules
 
 [![Java CI with Maven](https://github.com/chrisgioia64/ecommerce-automation/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/chrisgioia64/ecommerce-automation/actions/workflows/maven.yml)
 
@@ -44,3 +45,16 @@ A Cucumber feature that goes through different user flows for a logged-in user a
 Ideally, we would like this to depend upon the registration module but currently we log in as a user that is guaranteed to exist.
 
 See [feature file](https://github.com/chrisgioia64/ecommerce-automation/blob/master/src/test/java/ecommerce/cucumber/cart/features/cart.feature)
+
+### Usage
+
+We use Maven with profiles to run tests. Example usage:
+```
+mvn test -Pdevelopment
+```
+
+Maven profiles
+1. `development`: Intended for your local machine. Uses the web drivers that come in the `drivers` directory. Performs parallel testing, associating a web driver to a thread.
+2. `qa` : Intended for the CI build on github. Uses remote web drivers to perform testing on the Saucelabs server. Due to Saucelab limitations, performs sequential testing.
+3. `jenkins`: Intended to be used on a Jenkins server that has the [Sauce OnDemand](https://plugins.jenkins.io/sauce-ondemand/) plugin installed. Similar to `qa` except that it reads in platform and browser from system properties in order to support the Sauce OnDemand plugin.
+   ![Search feature](img/sauce_labs.png)
